@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d) {
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void create(node* &root) {
+    int d;
+    cin >> d;
+    root = new node(d);
+
+    string left, right;
+    cin >> left;
+    if (left == "true") {
+        create(root->left);
+    } else {
+        root->left = NULL;
+    }
+
+    cin >> right;
+    if (right == "true") {
+        create(root->right);
+    } else {
+        root->right = NULL;
+    }
+}
+
+void printNodesWithoutSiblings(node* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    if (root->left && !root->right) {
+        cout << root->left->data << " ";
+    } else if (!root->left && root->right) {
+        cout << root->right->data << " ";
+    }
+
+    printNodesWithoutSiblings(root->left);
+    printNodesWithoutSiblings(root->right);
+}
+
+int main() {
+    node* root = NULL;
+    create(root);
+    printNodesWithoutSiblings(root);
+
+    return 0;
+}

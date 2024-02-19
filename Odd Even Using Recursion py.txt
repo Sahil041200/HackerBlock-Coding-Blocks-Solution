@@ -1,0 +1,13 @@
+def print_numbers(N):
+    if N <= 0:
+        return
+    if N % 2 == 1:
+        print(N)
+    print_numbers(N - 1)
+    if N % 2 == 0:
+        print(N)
+
+# Input
+N = int(input())
+if 1 <= N <= 1000:
+    print_numbers(N)

@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d) {
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+node* insert() {
+    int d;
+    string value;
+    cin >> d;
+    cin >> value;
+    node* root = new node(d);
+    if (value == "true") {
+        root->left = insert();
+    }
+    cin >> value;
+    if (value == "true") {
+        root->right = insert();
+    }
+    return root;
+}
+
+bool areStructurallyIdentical(node* root1, node* root2) {
+    if (root1 == NULL && root2 == NULL)
+        return true;
+    else if (root1 == NULL || root2 == NULL)
+        return false;
+
+    bool left = areStructurallyIdentical(root1->left, root2->left);
+    bool right = areStructurallyIdentical(root1->right, root2->right);
+
+    return (left && right);
+}
+
+int main() {
+    node* root1 = NULL;
+    node* root2 = NULL;
+    root1 = insert();
+    root2 = insert();
+
+    if (areStructurallyIdentical(root1, root2)) {
+        cout << "true\n";
+    } else {
+        cout << "false\n";
+    }
+
+    return 0;
+}

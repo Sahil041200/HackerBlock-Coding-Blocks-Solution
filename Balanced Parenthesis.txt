@@ -1,0 +1,43 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+bool areBracketsBalanced(string str) {
+    stack<char> s;
+    
+    for (char bracket : str) {
+        if (bracket == '(' || bracket == '{' || bracket == '[') {
+            s.push(bracket);
+        } else {
+            if (s.empty()) {
+                return false;  // Unmatched closing bracket
+            }
+            
+            char top = s.top();
+            s.pop();
+            
+            if ((bracket == ')' && top != '(') ||
+                (bracket == '}' && top != '{') ||
+                (bracket == ']' && top != '[')) {
+                return false;  // Mismatched opening and closing brackets
+            }
+        }
+    }
+    
+    return s.empty();  // Check if there are unmatched opening brackets
+}
+
+int main() {
+    string input;
+    cin >> input;
+
+    if (areBracketsBalanced(input)) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
+
+    return 0;
+}

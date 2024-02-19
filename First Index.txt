@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+int firstIndex(int arr[], int N, int M, int index) {
+    if (index == N) {
+        return -1;
+    }
+
+    if (arr[index] == M) {
+        return index;
+    }
+ 
+    return firstIndex(arr, N, M, index + 1);
+}
+
+int main() {
+    int N;
+    cin >> N;
+    int arr[N];
+
+    for (int i = 0; i < N; i++) {
+        cin >> arr[i];
+    }
+
+    int M;
+    cin >> M;
+
+    int result = firstIndex(arr, N, M, 0);
+    cout << result << endl;
+
+    return 0;
+}

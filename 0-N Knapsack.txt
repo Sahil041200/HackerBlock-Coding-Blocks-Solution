@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int knapsack(int n, int cap, vector<int>& wt, vector<int>& val) {
+    // dp[i] stores the maximum value that can be obtained with a knapsack of capacity i
+    vector<int> dp(cap + 1, 0);
+
+    for (int w = 1; w <= cap; ++w) {
+        for (int i = 0; i < n; ++i) {
+            if (wt[i] <= w) {
+                // Update dp[w] if including item i leads to a higher value
+                dp[w] = max(dp[w], dp[w - wt[i]] + val[i]);
+            }
+        }
+    }
+
+    return dp[cap];
+}
+
+int main() {
+    int n, cap;
+    cin >> n >> cap;
+
+    vector<int> wt(n), val(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> wt[i];
+    }
+
+    for (int i = 0; i < n; ++i) {
+        cin >> val[i];
+    }
+
+    int result = knapsack(n, cap, wt, val);
+
+    cout << result << endl;
+
+    return 0;
+}

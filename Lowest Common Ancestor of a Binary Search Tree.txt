@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(int value) : val(value), left(nullptr), right(nullptr) {}
+};
+
+class BST {
+public:
+    TreeNode* root;
+
+    BST() : root(nullptr) {}
+
+    TreeNode* insert(TreeNode* node, int value) {
+        if (node == nullptr) {
+            return new TreeNode(value);
+        }
+
+        if (value < node->val) {
+            node->left = insert(node->left, value);
+        } else if (value > node->val) {
+            node->right = insert(node->right, value);
+        }
+
+        return node;
+    }
+
+    TreeNode* findLCA(TreeNode* root, int p, int q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+
+        if (p < root->val && q < root->val) {
+            return findLCA(root->left, p, q);
+        } else if (p > root->val && q > root->val) {
+            return findLCA(root->right, p, q);
+        }
+
+        return root;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    BST bst;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+        bst.root = bst.insert(bst.root, value);
+    }
+
+    int p, q;
+    cin >> p >> q;
+
+    TreeNode* lca = bst.findLCA(bst.root, p, q);
+    cout << lca->val << endl;
+
+    return 0;
+}

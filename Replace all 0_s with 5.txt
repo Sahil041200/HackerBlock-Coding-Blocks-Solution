@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+int replaceZerosWithFives(int num) {
+    int result = 0;
+    int decimalPlace = 1;
+    
+    if (num == 0) {
+        return 5; // Special case: if the number is 0, return 5
+    }
+
+    while (num > 0) {
+        int digit = num % 10;
+        if (digit == 0) {
+            result += 5 * decimalPlace;
+        } else {
+            result += digit * decimalPlace;
+        }
+        num /= 10;
+        decimalPlace *= 10;
+    }
+    
+    return result;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    
+    int modifiedNumber = replaceZerosWithFives(N);
+    cout << modifiedNumber << endl;
+
+    return 0;
+}

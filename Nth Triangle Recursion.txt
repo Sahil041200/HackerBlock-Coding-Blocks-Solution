@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int findNthTriangle(int N) {
+    // Base case: 1st triangle number is 1
+    if (N == 1) {
+        return 1;
+    }
+
+    // Recursive case: Nth triangle number is N + (N-1)th triangle number
+    return N + findNthTriangle(N - 1);
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    int result = findNthTriangle(N);
+    cout << result << endl;
+
+    return 0;
+}

@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int countHi(string str, int index) {
+    if (index >= str.length() - 1) {
+        return 0;
+    }
+
+    int count = 0;
+    if (str[index] == 'h' && str[index + 1] == 'i' && (index + 2 >= str.length() || str[index + 2] != 't')) {
+        count = 1 + countHi(str, index + 2); // Move index by 2 to skip 'hi'
+    } else {
+        count = countHi(str, index + 1);
+    }
+
+    return count;
+}
+
+string removeHi(string str, int index) {
+    if (index >= str.length() - 1) {
+        return str;
+    }
+
+    if (str[index] == 'h' && str[index + 1] == 'i' && (index + 2 >= str.length() || str[index + 2] != 't')) {
+        
+        str.erase(index, 2);
+        return removeHi(str, index);
+    }
+
+    return removeHi(str, index + 1);
+}
+
+string replaceHiWithBye(string str, int index) {
+    if (index >= str.length() - 1) {
+        return str;
+    }
+
+    if (str[index] == 'h' && str[index + 1] == 'i' && (index + 2 >= str.length() || str[index + 2] != 't')) {
+        str.replace(index, 2, "bye");
+        return replaceHiWithBye(str, index + 3); // Check again starting after 'bye'
+    }
+
+    return replaceHiWithBye(str, index + 1);
+}
+
+int main() {
+    string input;
+    cin >> input;
+
+    int count = countHi(input, 0);
+    cout << count << endl;
+
+    string withoutHi = removeHi(input, 0);
+    cout << withoutHi << endl;
+
+    string replacedString = replaceHiWithBye(input, 0);
+    cout << replacedString << endl;
+
+    return 0;
+}

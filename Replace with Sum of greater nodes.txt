@@ -1,0 +1,74 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+public:
+	int data;
+	Node *left,*right;
+	Node(int d){
+		data = d;
+		right=NULL;
+		left=NULL;
+	}
+};
+
+Node* BuildTree(int*inorder,int s, int e){
+	if(s>e)
+		return NULL;
+	int mid = (s+e)/2;
+	Node*root = new Node(inorder[mid]);
+	if(s==e)
+		return root;
+
+	root->left = BuildTree(inorder,s,mid-1);
+	root->right = BuildTree(inorder,mid+1,e);
+	
+	return root;
+}
+
+int ReplaceSum(Node*root,int largerSum){
+	if(root==NULL)
+		return 0;
+
+	// Calling to right , rans will store sum of all larger node
+	int rans = ReplaceSum(root->right,largerSum);
+	
+	// storing original root->data because we will update this
+	int oldRootData = root->data;
+	root->data = root->data + rans + largerSum;
+	
+	// call to left and update left side node as well, here we have to pass sum of all right side node value
+	int lans = ReplaceSum(root->left,root->data);
+
+	// Returning sum of this subtree including root->data
+	return lans + rans + oldRootData;
+
+}
+
+void preorder(Node*root){
+	if(root==NULL)
+		return;
+
+	cout<<root->data<<" ";
+	preorder(root->left);
+	preorder(root->right);
+
+}
+
+int main(){
+	int n; cin>>n;
+	int *inorder = new int [n];
+	for(int i=0;i<n;i++){
+		cin>>inorder[i];
+	}
+
+	Node*root = BuildTree(inorder,0,n-1);
+
+	// preorder(root);cout<<endl;
+
+	ReplaceSum(root,0);
+
+	preorder(root);
+
+	return 0;
+}

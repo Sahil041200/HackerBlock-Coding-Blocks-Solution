@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int d) {
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+void create(Node*& root) {
+    int d;
+    cin >> d;
+    root = new Node(d);
+    string left1, right1;
+    cin >> left1;
+    if (left1 == "true") {
+        create(root->left);
+    }
+    cin >> right1;
+    if (right1 == "true") {
+        create(root->right);
+    }
+}
+
+void printPathUtils(Node* root, int sum, int sumSoFar, vector<int>& path) {
+    if (root == NULL) {
+        return;
+    }
+    sumSoFar += root->data;
+    path.push_back(root->data);
+    if (root->left == NULL && root->right == NULL && sumSoFar == sum) {
+        for (int i = 0; i < path.size(); i++) {
+            cout << path[i] << " ";
+        }
+        cout << endl;
+    }
+    if (root->left != NULL) {
+        printPathUtils(root->left, sum, sumSoFar, path);
+    }
+    if (root->right != NULL) {
+        printPathUtils(root->right, sum, sumSoFar, path);
+    }
+    path.pop_back();
+}
+
+void printPaths(Node* root, int sum) {
+    vector<int> path;
+    printPathUtils(root, sum, 0, path);
+}
+
+int main() {
+    Node* root = nullptr;
+    create(root);
+    int k;
+    cin >> k;
+    printPaths(root, k);
+    return 0;
+}

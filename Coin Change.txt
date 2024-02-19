@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+long long countWaysToMakeChange(int N, vector<int>& coins) {
+    vector<long long> dp(N + 1, 0);
+
+    // There is one way to make change for zero cents, i.e., no coins
+    dp[0] = 1;
+
+    for (int i = 0; i < coins.size(); ++i) {
+        for (int j = coins[i]; j <= N; ++j) {
+            dp[j] += dp[j - coins[i]];
+        }
+    }
+
+    return dp[N];
+}
+
+int main() {
+    int N, M;
+    cin >> N >> M;
+
+    vector<int> coins(M);
+
+    for (int i = 0; i < M; ++i) {
+        cin >> coins[i];
+    }
+
+    long long result = countWaysToMakeChange(N, coins);
+
+    cout << result << endl;
+
+    return 0;
+}

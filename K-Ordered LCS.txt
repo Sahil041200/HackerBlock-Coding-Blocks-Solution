@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int kOrderedLCS(int N, int M, int k, vector<int>& seq1, vector<int>& seq2) {
+    vector<vector<vector<int>>> dp(N + 1, vector<vector<int>>(M + 1, vector<int>(k + 1, 0)));
+
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= M; ++j) {
+            for (int p = 0; p <= k; ++p) {
+                if (seq1[i - 1] == seq2[j - 1]) {
+                    dp[i][j][p] = 1 + dp[i - 1][j - 1][p];
+                } else {
+                    dp[i][j][p] = max(dp[i - 1][j][p], dp[i][j - 1][p]);
+                    if (p > 0) {
+                        dp[i][j][p] = max(dp[i][j][p], 1 + dp[i - 1][j - 1][p - 1]);
+                    }
+                }
+            }
+        }
+    }
+
+    return dp[N][M][k];
+}
+
+int main() {
+    int N, M, k;
+    cin >> N >> M >> k;
+
+    vector<int> seq1(N);
+    vector<int> seq2(M);
+
+    for (int i = 0; i < N; ++i) {
+        cin >> seq1[i];
+    }
+
+    for (int i = 0; i < M; ++i) {
+        cin >> seq2[i];
+    }
+
+    int result = kOrderedLCS(N, M, k, seq1, seq2);
+
+    cout << result << endl;
+
+    return 0;
+}

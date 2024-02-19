@@ -1,0 +1,67 @@
+#include<iostream>
+using namespace std; 
+class node{
+	public:
+		int data;
+		node *left;
+		node *right;
+		node(int d){
+			data=d;
+			left=NULL;
+			right=NULL;
+		}
+};
+node*Build(string s){
+	if(s=="true"){
+        int d;
+        cin>>d;
+        node*root = new node(d);
+        string l;
+        cin>>l;
+        if(l=="true"){
+        root->left=Build(l);
+        }
+        string r;
+        cin>>r;
+        if(r=="true"){
+        root->right=Build(r);
+        }
+        return root;
+	}
+	return NULL;
+}
+
+class HBPair{   //heightBalancedPair
+    public:
+        int height;
+        bool balance;
+};
+HBPair isHB(node *root){
+    HBPair p;
+    if(root==NULL){
+        p.height=0;
+        p.balance=true;
+        return p;
+    }
+    //recursive case
+    HBPair left = isHB(root->left);
+    HBPair right = isHB(root->right);
+    p.height=max(left.height,right.height)+1;
+    if(abs(left.height-right.height)<=1&&left.balance&&right.balance){
+        p.balance= true;
+    }   
+    else{
+        p.balance= false;
+    }
+    return p;
+}
+
+int main(){
+	node *root=Build("true");
+	if(isHB(root).balance){
+		cout<<"true";
+	}
+	else 
+		cout<<"false";
+	return 0;
+}

@@ -1,0 +1,32 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+unordered_map<int, long long> memo;
+
+long long getMaxGold(int n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    if (memo.find(n) != memo.end()) {
+        return memo[n];
+    }
+
+    long long maxGold = getMaxGold(n / 2) + getMaxGold(n / 3) + getMaxGold(n / 4);
+    memo[n] = max(maxGold, static_cast<long long>(n));
+    
+    return memo[n];
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    long long result = getMaxGold(n);
+
+    cout << result << endl;
+
+    return 0;
+}

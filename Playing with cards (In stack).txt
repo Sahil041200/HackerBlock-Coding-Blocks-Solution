@@ -1,0 +1,103 @@
+#include<iostream>
+#include<stack>
+#include<cstring>
+#include<cmath>
+using namespace std;
+long long int arr[100005];
+void SieveOfEratosthenes() 
+{ 
+    long int n=100001;
+    bool prime[n+1]; 
+    memset(prime, true, sizeof(prime)); 
+  
+    for (int p=2; p*p<=n; p++) 
+    { 
+        
+        if (prime[p] == true) 
+        { 
+            // Update all multiples of p greater than or  
+            // equal to the square of it 
+            // numbers which are multiple of p and are 
+            // less than p^2 are already been marked.  
+            for (int i=p*p; i<=n; i += p) 
+                prime[i] = false; 
+        } 
+    } 
+  
+    // Print all prime numbers 
+    int i=1;
+    for (int p=2; p<=n; p++) 
+       if (prime[p]) 
+       {   arr[i]=p;
+	   		i++;
+	   }
+} 
+ 
+void print(stack<int>&Aprev)
+{
+    while(!Aprev.empty())
+    {
+        cout<<Aprev.top()<<endl;
+        Aprev.pop();
+    }
+    return;
+}
+
+void cardStacking(stack<int>&Aprev,int n,int q)
+{
+    stack<int>Anext;
+    stack<int>B;
+    stack<int>exchange;
+    if(q==0)
+    {
+        print(Aprev);
+        return;
+    }
+    for(int i=1;i<=q;i++)
+    {
+        while(!Aprev.empty())
+        {
+            int top=Aprev.top();
+            if(top%arr[i]==0)
+            {
+                B.push(top);
+            }
+            else
+            {
+                Anext.push(top);
+            }
+            Aprev.pop();
+        }
+        print(B);
+        while(!Anext.empty())
+        {
+            exchange.push(Anext.top());
+            Anext.pop();
+        }
+        while(!exchange.empty())
+        {
+            Aprev.push(exchange.top());
+            exchange.pop();
+        }
+
+    }
+    print(Aprev);
+    return;
+
+}
+int main()
+{
+    int n,q;
+    SieveOfEratosthenes();
+    cin>>n>>q;
+    int x;
+    stack<int>A0;
+    for(int i=0;i<n;i++)
+    {
+        cin>>x;
+        A0.push(x);
+    }
+    cardStacking(A0,n,q);
+    print(A0);
+    return 0;
+}

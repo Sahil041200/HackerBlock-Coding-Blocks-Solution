@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+void generatePermutations(string prefix, string remaining, string original) {
+    if (remaining.empty()) {
+        
+        if (prefix < original) {
+            cout << prefix << endl;
+        }
+        return;
+    }
+
+    for (int i = 0; i < remaining.length(); i++) {
+        generatePermutations(prefix + remaining[i], remaining.substr(0, i) + remaining.substr(i + 1), original);
+    }
+}
+
+int main() {
+    string input;
+    cout << "";
+    cin >> input;
+
+    string sortedInput = input;
+    sort(sortedInput.begin(), sortedInput.end()); // Sort the input string lexicographically
+
+    generatePermutations("", sortedInput, input);
+
+    return 0;
+}

@@ -1,0 +1,51 @@
+def Nqueens(board, row, ans):
+    count = 0
+    if row == len(board):
+        return 1
+    for col in range(len(board[0])):
+        if isItSafe(board, row, col):
+            board[row][col] = True
+            count += Nqueens(board, row + 1, ans + f"{{{row + 1}-{col + 1}}} ")
+            board[row][col] = False
+    return count
+
+def output(board, row, ans):
+    if row == len(board):
+        print(ans, end=" ")
+        return
+    for col in range(len(board[0])):
+        if isItSafe(board, row, col):
+            board[row][col] = True
+            output(board, row + 1, ans + f"{{{row + 1}-{col + 1}}} ")
+            board[row][col] = False
+
+def isItSafe(board, row, col):
+    r = row - 1
+    c = col
+    while r >= 0:
+        if board[r][c]:
+            return False
+        r -= 1
+    r = row - 1
+    c = col - 1
+    while r >= 0 and c >= 0:
+        if board[r][c]:
+            return False
+        r -= 1
+        c -= 1
+    r = row - 1
+    c = col + 1
+    while r >= 0 and c < len(board[0]):
+        if board[r][c]:
+            return False
+        r -= 1
+        c += 1
+    return True
+
+
+n = int(input())
+board = [[False] * n for _ in range(n)]
+count = Nqueens(board, 0, "")
+output(board, 0, "")
+print()
+print(count)

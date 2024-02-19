@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void splitArray(vector<int>& arr, int index, vector<int>& group1, vector<int>& group2, int sum1, int sum2) {
+    if (index == arr.size()) {
+        if (sum1 == sum2) {
+            for (int i = 0; i < group1.size(); i++) {
+                cout << group1[i] << " ";
+            }
+            cout << "and ";
+            for (int i = 0; i < group2.size(); i++) {
+                cout << group2[i] << " ";
+            }
+            cout << endl;
+        }
+        return;
+    }
+
+    // Add the current element to group1
+    group1.push_back(arr[index]);
+    splitArray(arr, index + 1, group1, group2, sum1 + arr[index], sum2);
+
+    // Remove the current element from group1 and add to group2
+    group1.pop_back();
+    group2.push_back(arr[index]);
+    splitArray(arr, index + 1, group1, group2, sum1, sum2 + arr[index]);
+    group2.pop_back(); // Backtrack
+}
+
+int countWaysToSplitArray(vector<int>& arr, int index, int sum1, int sum2) {
+    if (index == arr.size()) {
+        if (sum1 == sum2) {
+            return 1;
+        }
+        return 0;
+    }
+
+    int ways = 0;
+
+    ways += countWaysToSplitArray(arr, index + 1, sum1 + arr[index], sum2);
+    ways += countWaysToSplitArray(arr, index + 1, sum1, sum2 + arr[index]);
+
+    return ways;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    vector<int> arr(N);
+
+    for (int i = 0; i < N; i++) {
+        cin >> arr[i];
+    }
+
+    vector<int> group1, group2;
+
+    int ways = countWaysToSplitArray(arr, 0, 0, 0);
+    splitArray(arr, 0, group1, group2, 0, 0);
+
+    cout << ways << endl;
+
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to check if a knows b
+bool knows(vector<vector<int>>& matrix, int a, int b) {
+    return matrix[a][b] == 1;
+}
+
+int findCelebrity(vector<vector<int>>& matrix, int N) {
+    int left = 0;
+    int right = N - 1;
+
+    while (left < right) {
+        if (knows(matrix, left, right)) {
+            // If left knows right, left cannot be the celebrity.
+            left++;
+        } else {
+            // If left doesn't know right, right cannot be the celebrity.
+            right--;
+        }
+    }
+
+    // At this point, "left" is a potential celebrity candidate.
+    // Check if "left" doesn't know anyone on the right side.
+    for (int i = 0; i < N; i++) {
+        if (i != left && (knows(matrix, left, i) || !knows(matrix, i, left))) {
+            return -1; // "left" is not a celebrity
+        }
+    }
+
+    return left; // "left" is the celebrity
+}
+
+int main() {
+    int N;
+    cin >> N;
+    vector<vector<int>> matrix(N, vector<int>(N, 0));
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    int celebrity = findCelebrity(matrix, N);
+
+    if (celebrity != -1) {
+        cout << celebrity << endl;
+    } else {
+        cout << "No Celebrity" << endl;
+    }
+
+    return 0;
+}

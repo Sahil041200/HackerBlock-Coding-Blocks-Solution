@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+
+ll calculate(ll n)
+{
+    if(n<=1) return n;
+    ll t2=0,t3=0,t5=0;
+    vector<ll> k(n);
+    k[0]=1;
+
+    for(ll i=1;i<n;i++)
+    {
+        k[i]=min(k[t2]*2,min(k[t3]*3,k[t5]*5));
+
+        if(k[i]==k[t2]*2) t2++;
+        if(k[i]==k[t3]*3) t3++;
+        if(k[i]==k[t5]*5) t5++;
+    }
+
+    return k[n-1];
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+       ll n;
+       cin>>n;
+
+       cout<<calculate(n)<<endl; 
+    }
+    return 0;
+}

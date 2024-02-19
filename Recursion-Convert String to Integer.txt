@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int stringToInteger(string str) {
+    // Base case: If the string is empty, return 0.
+    if (str.empty()) {
+        return 0;
+    }
+
+    // Get the first character of the string and convert it to an integer.
+    int lastDigit = str.back() - '0';
+
+    // Remove the last character from the string.
+    str.pop_back();
+
+    // Recursively convert the remaining string to an integer and multiply by 10.
+    int remainingValue = stringToInteger(str);
+
+    // Return the result by adding the last digit to the value obtained from recursion.
+    return remainingValue * 10 + lastDigit;
+}
+
+int main() {
+    string str;
+    cin >> str;
+    int result = stringToInteger(str);
+    cout << result << endl;
+    return 0;
+}

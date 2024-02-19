@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+class node{
+	public:
+	int data;
+	node* left;
+	node* right;
+	node(int d){
+		data=d;
+		left=NULL;
+		right = NULL;
+	}
+};
+
+void buildTree(node* &root){
+	string left,right;
+	int d;
+	cin>>d;
+	root = new node(d);
+	cin>>left;
+	if(left == "true"){
+		buildTree(root->left);
+	}
+	cin>>right;
+	if(right == "true"){
+		buildTree(root->right);
+	}
+}
+
+int sum(node* root){
+	if(root == NULL){
+		return 0;
+	}
+
+    return root->data + sum(root->left) + sum(root->right);
+}
+
+int main(){
+    node* root = NULL;
+    buildTree(root);
+    cout<< sum(root);
+
+    return 0;
+}

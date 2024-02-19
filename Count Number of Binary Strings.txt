@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+long long countBinaryStrings(int n) {
+    vector<long long> dp(n + 1, 0);
+
+    // Initialize base cases
+    dp[0] = 1; // No bits set, only the empty string
+    dp[1] = 2; // Two possibilities: 0 and 1
+
+    // Fill the dp table
+    for (int i = 2; i <= n; ++i) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n;
+        cin >> n;
+
+        long long result = countBinaryStrings(n);
+
+        cout << result << endl;
+    }
+
+    return 0;
+}

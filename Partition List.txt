@@ -1,0 +1,78 @@
+#include <iostream>
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+ListNode* partition(ListNode* head, int x) {
+    // Create two dummy nodes for two partitions
+    ListNode* lessHead = new ListNode(0);
+    ListNode* lessTail = lessHead;
+    ListNode* greaterHead = new ListNode(0);
+    ListNode* greaterTail = greaterHead;
+
+    // Traverse the original list
+    ListNode* current = head;
+    while (current != nullptr) {
+        if (current->val < x) {
+            lessTail->next = current;
+            lessTail = current;
+        } else {
+            greaterTail->next = current;
+            greaterTail = current;
+        }
+        current = current->next;
+    }
+
+    // Connect the two partitions
+    lessTail->next = greaterHead->next;
+    greaterTail->next = nullptr;
+
+    // Return the head of the updated list
+    return lessHead->next;
+}
+
+void printLinkedList(ListNode* head) {
+    ListNode* current = head;
+    while (current != nullptr) {
+        std::cout << current->val << " ";
+        current = current->next;
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    int N, x;
+    std::cin >> N >> x;
+
+    ListNode* head = nullptr;
+    ListNode* tail = nullptr;
+
+    // Input for the linked list
+    for (int i = 0; i < N; i++) {
+        int value;
+        std::cin >> value;
+        ListNode* newNode = new ListNode(value);
+        if (head == nullptr) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    head = partition(head, x);
+    printLinkedList(head);
+
+    // Free allocated memory
+    while (head != nullptr) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}

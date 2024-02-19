@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+void generatePermutations(string prefix, string remaining, vector<string>& permutations) {
+    if (remaining.empty()) {
+        permutations.push_back(prefix);
+        return;
+    }
+
+    for (int i = 0; i < remaining.length(); i++) {
+        generatePermutations(prefix + remaining[i], remaining.substr(0, i) + remaining.substr(i + 1), permutations);
+    }
+}
+
+int main() {
+    string input;
+    cout << "";
+    cin >> input;
+
+    vector<string> permutations;
+    generatePermutations("", input, permutations);
+
+    sort(permutations.begin(), permutations.end());  // Sort the permutations lexicographically
+
+    bool found = false;
+
+    for (const string& perm : permutations) {
+        if (perm > input) {
+            cout << perm << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "No larger words found." << endl;
+    }
+
+    return 0;
+}

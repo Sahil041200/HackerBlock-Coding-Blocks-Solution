@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
+
+    node(int d) {
+        data = d;
+        left = right = NULL;
+    }
+};
+
+node* treeCreate(int *pre, int *in, int s, int e, int &k) {
+    // Base case
+    if (s > e) return NULL;
+
+    // Recursive case
+    node* root = new node(pre[k++]);
+    int indx = 0;
+    for (int i = s; i <= e; i++) {
+        if (in[i] == root->data) {
+            indx = i;
+            break;
+        }
+    }
+    root->left = treeCreate(pre, in, s, indx - 1, k);
+    root->right = treeCreate(pre, in, indx + 1, e, k);
+    return root;
+}
+
+void modifiedPreOrder(node* root) {
+    // Base case
+    if (!root) return;
+
+    // Recursive case
+    if (!root->left) {
+        cout << "END ";
+    } else {
+        cout << root->left->data;
+    }
+    cout << " => ";
+    cout << root->data << " <= ";
+    if (!root->right) {
+        cout << "END";
+    } else {
+        cout << root->right->data;
+    }
+    cout << endl;
+
+    modifiedPreOrder(root->left);
+    modifiedPreOrder(root->right);
+}
+
+int main() {
+    int n, m;
+    cin >> n;
+    int pre[n], in[n];
+    for (int i = 0; i < n; i++) {
+        cin >> pre[i];
+    }
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        cin >> in[i];
+    }
+
+    int preIndex = 0;
+    node* root = treeCreate(pre, in, 0, n - 1, preIndex);
+    modifiedPreOrder(root);
+
+    return 0;
+}

@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void findIndices(vector<int>& arr, int M, int currentIndex, vector<int>& indices) {
+    if (currentIndex == arr.size()) {
+        return;
+    }
+
+    if (arr[currentIndex] == M) {
+        indices.push_back(currentIndex);
+    }
+
+    findIndices(arr, M, currentIndex + 1, indices);
+}
+
+int main() {
+    int N;
+    cin >> N;
+    vector<int> arr(N);
+
+    for (int i = 0; i < N; i++) {
+        cin >> arr[i];
+    }
+
+    int M;
+    cin >> M;
+
+    vector<int> indices;
+    findIndices(arr, M, 0, indices);
+
+    for (int i = 0; i < indices.size(); i++) {
+        cout << indices[i];
+        if (i < indices.size() - 1) {
+            cout << " ";
+        }
+    }
+
+    cout << endl;
+
+    return 0;
+}

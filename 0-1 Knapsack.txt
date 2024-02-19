@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int knapsack(int N, int S, vector<int>& sizes, vector<int>& values) {
+    vector<vector<int>> dp(N + 1, vector<int>(S + 1, 0));
+
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= S; ++j) {
+            if (sizes[i - 1] <= j) {
+                dp[i][j] = max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - sizes[i - 1]]);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+
+    return dp[N][S];
+}
+
+int main() {
+    int N, S;
+    cin >> N >> S;
+
+    vector<int> sizes(N);
+    vector<int> values(N);
+
+    for (int i = 0; i < N; ++i) {
+        cin >> sizes[i];
+    }
+
+    for (int i = 0; i < N; ++i) {
+        cin >> values[i];
+    }
+
+    int result = knapsack(N, S, sizes, values);
+
+    cout << result << endl;
+
+    return 0;
+}

@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to generate all binary strings from given string with wildcard characters.
+void generateAllBinaryStrings(string str, int index, vector<string>& result) {
+  // If we have reached the end of the string, add it to the result vector.
+  if (index == str.length()) {
+    result.push_back(str);
+    return;
+  }
+
+  // If the current character is a wildcard character, replace it with both `0` and `1` and recurse.
+  if (str[index] == '?') {
+    str[index] = '0';
+    generateAllBinaryStrings(str, index + 1, result);
+    str[index] = '1';
+    generateAllBinaryStrings(str, index + 1, result);
+    str[index] = '?';
+  } else {
+    // If the current character is not a wildcard character, recurse.
+    generateAllBinaryStrings(str, index + 1, result);
+  }
+}
+
+int main() {
+  int T;
+  cin >> T;
+
+  while (T--) {
+    string str;
+    cin >> str;
+
+    // Initialize the result vector.
+    vector<string> result;
+
+    // Generate all binary strings from the given string.
+    generateAllBinaryStrings(str, 0, result);
+
+    // Print all binary strings in the result vector.
+    for (int i = 0; i < result.size(); i++) {
+      cout << result[i] << " ";
+    }
+    cout << endl;
+  }
+
+  return 0;
+}
