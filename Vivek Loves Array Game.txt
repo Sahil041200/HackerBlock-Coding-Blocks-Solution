@@ -1,39 +1,53 @@
 #include<bits/stdc++.h>
+#define int long long
 using namespace std;
-#define ll long long int
-ll bs(ll low,ll high,ll key,vector<ll>&arr){
-    if(low>high)
-        return INT_MAX;
-    ll mid = (low+high)/2;
-    if(arr[mid]==key)
-        return min(mid,bs(low,mid-1,key,arr));
-    else if(arr[mid]>key)
-        return bs(low,mid-1,key,arr);
-    else
-        return bs(mid+1,high,key,arr);
+
+int vivekGame(int *arr,int *pre,int s,int e){
+	//base cases
+	if (s>=e){
+		return 0;
+	}
+	if ((s+1)==e){
+		if (arr[s]==arr[e]){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	int smallans=0;
+	for (int i=s;i<e;i++){
+		if ((pre[i+1]-pre[s])==(pre[e+1]-pre[i+1])){
+            int ans1=(max(vivekGame(arr,pre,s,i),vivekGame(arr,pre,i+1,e)))+1;
+			smallans=max(smallans,ans1);
+            // Since only one break point possible break after that point is founnd
+			break;
+		}
+	}
+	return smallans;
 }
-ll solve(vector<ll>&arr,ll start,ll end,map<pair<ll,ll>,ll> &dp){
-    if(start>=end)
-        return 0;
-    if(dp.find({start,end})!=dp.end())
-        return dp[{start,end}];
-    ll key = arr[end]-arr[start-1]; //total sum of this subArray
-    if(key%2)
-        return 0;
-    key = (key/2)+arr[start-1]; //left half sum
-    ll lower = min(end,bs(start,end,key,arr));//find first index where left half sum == right half sum
-    if(lower<end && arr[lower]-arr[start-1] == arr[end]-arr[lower+1-1])
-        dp[{start,end}] = 1+max(solve(arr,start,lower,dp),solve(arr,lower+1,end,dp));
-    return dp[{start,end}];
-}
-int main(){
-    int T; cin >> T;
-    while(T--){
-        int N; cin >> N;
-        vector<ll> arr(N+1,0);
-        for(int i=1;i<=N;i++)
-            cin >> arr[i],arr[i]+=arr[i-1];
-        map<pair<ll,ll>,ll> dp;
-       cout<<solve(arr,1,N,dp)<<endl;
-    }
+
+int32_t main() {
+    // Always use fast IO
+	ios_base::sync_with_stdio(NULL);
+    cin.tie(0);cout.tie(0);
+	int t;
+	cin>>t;
+	while(t--){
+		int n;
+		cin>>n;
+		int arr[n];
+		for (int i=0;i<n;i++){
+			cin>>arr[i];
+		}
+        int pre[n+1];
+        pre[0]=0;
+        for (int i=1;i<=n;i++){    
+            pre[i]=pre[i-1]+arr[i-1];
+        }
+        // No need of map for any array there will be only one break point
+        // Greedy and divide and conquer question not DP
+		cout<<vivekGame(arr,pre,0,n-1)<<endl;
+	}
+	return 0;
 }

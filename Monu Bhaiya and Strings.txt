@@ -1,37 +1,37 @@
 #include <iostream>
-#include <string>
 #include <stack>
+#include <vector>
+
 using namespace std;
 
 string removeDuplicateLetters(string s) {
-    int count[26] = {0};
-    bool inResult[26] = {false};
-    stack<char> st;
+    vector<int> count(26, 0); // Count the frequency of each character
+    vector<bool> used(26, false); // Track if a character is already used in the result
+    stack<char> stk; // Stack to maintain the result
 
-    for (char c : s) {
+    for (char c : s)
         count[c - 'a']++;
-    }
 
     for (char c : s) {
-        count[c - 'a']--;
+        count[c - 'a']--; // Decrement the count of the current character
 
-        if (inResult[c - 'a']) {
+        if (used[c - 'a']) // If character is already used, skip it
             continue;
+
+        // Pop characters from the stack if they are greater than the current character
+        while (!stk.empty() && stk.top() > c && count[stk.top() - 'a'] > 0) {
+            used[stk.top() - 'a'] = false;
+            stk.pop();
         }
 
-        while (!st.empty() && c < st.top() && count[st.top() - 'a'] > 0) {
-            inResult[st.top() - 'a'] = false;
-            st.pop();
-        }
-
-        st.push(c);
-        inResult[c - 'a'] = true;
+        stk.push(c);
+        used[c - 'a'] = true;
     }
 
     string result = "";
-    while (!st.empty()) {
-        result = st.top() + result;
-        st.pop();
+    while (!stk.empty()) {
+        result = stk.top() + result;
+        stk.pop();
     }
 
     return result;

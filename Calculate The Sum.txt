@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int MOD = 1000000007;
+
+int main() {
+    int N;
+    cin >> N;
+
+    vector<int> cyclic_array(N);
+    for (int i = 0; i < N; ++i) {
+        cin >> cyclic_array[i];
+    }
+
+    int Q;
+    cin >> Q;
+
+    long long total_sum = 0;
+    for (int i = 0; i < N; ++i) {
+        total_sum += cyclic_array[i];
+        total_sum %= MOD;
+    }
+
+    while (Q--) {
+        int X;
+        cin >> X;
+
+        total_sum *= 2;
+        total_sum %= MOD;
+    }
+
+    cout << total_sum << endl;
+
+    return 0;
+}

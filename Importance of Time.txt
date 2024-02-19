@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+
+    queue<int> callingOrder, idealOrder;
+
+    for (int i = 0; i < N; i++) {
+        int process;
+        cin >> process;
+        callingOrder.push(process);
+    }
+
+    for (int i = 0; i < N; i++) {
+        int process;
+        cin >> process;
+        idealOrder.push(process);
+    }
+
+    int time = 0;
+
+    while (!idealOrder.empty()) {
+        if (callingOrder.front() == idealOrder.front()) {
+            callingOrder.pop();
+            idealOrder.pop();
+            time++;
+        } else {
+            callingOrder.push(callingOrder.front());
+            callingOrder.pop();
+            time++;
+        }
+    }
+
+    cout << time << endl;
+
+    return 0;
+}

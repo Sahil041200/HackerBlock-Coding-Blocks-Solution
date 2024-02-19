@@ -3,13 +3,14 @@ using namespace std;
 
 int lastIndex(int arr[], int N, int M, int index) {
     if (index < 0) {
-        return -1; 
+        return -1; // Base case: M not found in the array
     }
 
     if (arr[index] == M) {
-        return index;
+        return index; // Found M at this index
     }
 
+    // Recursively search in the remaining part of the array
     return lastIndex(arr, N, M, index - 1);
 }
 

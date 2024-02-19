@@ -20,8 +20,9 @@ int main() {
     cin >> N;
 
     if (N >= 0) {
-        cout << "0 "; 
+        cout << "0 "; // Print 0 separately since it's the first number
 
+        // Start with 1 and recursively print numbers
         for (int i = 1; i <= 9 && i <= N; i++) {
             printLexicographical(i, N);
         }

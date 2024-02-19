@@ -1,37 +1,42 @@
-#include<ctype.h>
-#include<bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
-char mapping[][27]={"", "A", "B", "C", "D", "E", 
-        "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
-        "S", "T", "U", "V", "W", "X", "Y", "Z"}; 
-        void change(string str,string osf,int count)
-        {   int s=str.length();
-            if(count == s)
-            {
-                cout<<osf<<endl;
-                return;
-            }
-            if(str[count]!='0')
-            {
-                  int num=str[count]-'0';
-                  string ch=mapping[num];
-                 change(str,osf+ch,count+1);
-            }
-           if(count<s-1)
-           {
-              int num2=str[count]-'0';
-               int num3=str[count+1]-'0';
-               int num4=(num2*10)+(num3);
-               if(num4<=26)
-               {
-                    string ch1=mapping[num4];
-                   change(str,osf+ch1,count+2);
-               }
-           }
-             
-     }
+
+void generateStrings(string& digits, int index, string current, vector<string>& result, const string& mapping) {
+    if (index == digits.length()) {
+        result.push_back(current);
+        return;
+    }
+
+    int num = digits[index] - '0';
+    if (num >= 1 && num <= 9) {
+        generateStrings(digits, index + 1, current + mapping[num - 1], result, mapping);
+    }
+
+    if (index + 1 < digits.length()) {
+        int twoDigitNum = stoi(digits.substr(index, 2));
+        if (twoDigitNum >= 10 && twoDigitNum <= 26) {
+            generateStrings(digits, index + 2, current + mapping[twoDigitNum - 1], result, mapping);
+        }
+    }
+}
+
 int main() {
-  string str;
-  cin>>str;
-  change(str,"",0);
+    string digits;
+    cin >> digits;
+    string mapping = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    vector<string> result;
+
+    generateStrings(digits, 0, "", result, mapping);
+
+    sort(result.begin(), result.end());
+
+    for (string s : result) {
+        cout << s << endl;
+    }
+
+    return 0;
 }

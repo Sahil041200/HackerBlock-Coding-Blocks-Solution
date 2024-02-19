@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+void sortZeroesAndOnes(int arr[], int N) {
+    int left = 0; // Pointer to the leftmost element
+    int right = N - 1; // Pointer to the rightmost element
+
+    while (left < right) {
+        // Move the left pointer to the first 1 from the left
+        while (arr[left] == 0 && left < right) {
+            left++;
+        }
+
+        // Move the right pointer to the first 0 from the right
+        while (arr[right] == 1 && left < right) {
+            right--;
+        }
+
+        // If left pointer is still smaller than right pointer, swap the elements
+        if (left < right) {
+            swap(arr[left], arr[right]);
+            left++;
+            right--;
+        }
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    int arr[N];
+    for (int i = 0; i < N; ++i) {
+        cin >> arr[i];
+    }
+
+    sortZeroesAndOnes(arr, N);
+
+    // Output the sorted sequence
+    for (int i = 0; i < N; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}

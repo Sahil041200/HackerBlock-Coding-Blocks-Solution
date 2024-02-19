@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int kadane(const vector<int>& arr) {
+    int max_so_far = arr[0];
+    int max_ending_here = arr[0];
+
+    for (size_t i = 1; i < arr.size(); ++i) {
+        max_ending_here = max(arr[i], max_ending_here + arr[i]);
+        max_so_far = max(max_so_far, max_ending_here);
+    }
+
+    return max_so_far;
+}
+
+int max_circular_sum(const vector<int>& arr) {
+    int n = arr.size();
+
+    // Case 1: Maximum circular sum without wrapping
+    int max_without_wrap = kadane(arr);
+
+    // Case 2: Maximum circular sum with wrapping
+    // To find the maximum circular sum, we need to subtract the minimum subarray sum
+    // from the total sum of the array.
+    int total_sum = 0;
+    for (int num : arr) {
+        total_sum += num;
+    }
+
+    vector<int> inverted_arr;
+    inverted_arr.reserve(n);
+    for (int num : arr) {
+        inverted_arr.push_back(-num);
+    }
+    int max_with_wrap = total_sum + kadane(inverted_arr);
+
+    return max(max_without_wrap, max_with_wrap);
+}
+
+int main() {
+    int t;
+    cin >> t; // Number of test cases
+
+    for (int i = 0; i < t; ++i) {
+        int n;
+        cin >> n; // Size of array
+
+        vector<int> arr(n);
+        for (int j = 0; j < n; ++j) {
+            cin >> arr[j]; // Array elements
+        }
+
+        int result = max_circular_sum(arr);
+        cout << result << endl;
+    }
+
+    return 0;
+}

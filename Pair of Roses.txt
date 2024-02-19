@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <climits>
+using namespace std;
+
+void findRoses(vector<int>& prices, int money) {
+    unordered_map<int, int> priceToIndex;
+    int minDiff = INT_MAX;
+    pair<int, int> result;
+
+    for (int i = 0; i < prices.size(); ++i) {
+        int complement = money - prices[i];
+        if (priceToIndex.find(complement) != priceToIndex.end()) {
+            int diff = abs(complement - prices[i]);
+            if (diff < minDiff) {
+                result = make_pair(min(prices[i], complement), max(prices[i], complement));
+                minDiff = diff;
+            }
+        }
+        priceToIndex[prices[i]] = i;
+    }
+
+    cout << "Deepak should buy roses whose prices are " << result.first << " and " << result.second << "." << endl;
+}
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int N;
+        cin >> N;
+
+        vector<int> prices(N);
+        for (int i = 0; i < N; ++i) {
+            cin >> prices[i];
+        }
+
+        int money;
+        cin >> money;
+
+        findRoses(prices, money);
+
+        // Print a blank line after each test case
+        cout << endl;
+    }
+
+    return 0;
+}

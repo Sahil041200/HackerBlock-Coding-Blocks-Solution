@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+long long maxWaterSaved(const vector<int>& elevationMap) {
+    int n = elevationMap.size();
+    if (n < 3) {
+        return 0; // Not enough bars to trap water
+    }
+
+    long long maxWater = 0;
+    int left = 0, right = n - 1;
+    int leftMax = 0, rightMax = 0;
+
+    while (left < right) {
+        if (elevationMap[left] < elevationMap[right]) {
+            if (elevationMap[left] >= leftMax) {
+                leftMax = elevationMap[left];
+            } else {
+                maxWater += (leftMax - elevationMap[left]);
+            }
+            left++;
+        } else {
+            if (elevationMap[right] >= rightMax) {
+                rightMax = elevationMap[right];
+            } else {
+                maxWater += (rightMax - elevationMap[right]);
+            }
+            right--;
+        }
+    }
+
+    return maxWater;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> elevationMap(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> elevationMap[i];
+    }
+
+    long long result = maxWaterSaved(elevationMap);
+    cout << result << endl;
+
+    return 0;
+}

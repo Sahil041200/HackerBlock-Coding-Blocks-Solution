@@ -1,31 +1,33 @@
 #include <iostream>
 using namespace std;
 
-int countTwins(string str, int index) {
-    if (index >= str.length() - 2) {
-        // If the current index is at the end or beyond, there can't be any twins.
-        return 0;
+// Recursive function to count the number of twins in a string
+int countTwins(const string& str, int index) {
+    if (index < 2) {
+        return 0; // Base case: If the string is too short, no twins are possible
     }
 
-    int twinsCount = 0;
+    int twins = 0;
 
     // Check for twins at the current index
-    if (str[index] == str[index + 2] && str[index] != str[index + 1]) {
-        twinsCount++;
+    if (str[index - 2] == str[index]) {
+        twins++;
     }
 
-    // Recursively check for twins starting at the next index
-    twinsCount += countTwins(str, index + 1);
+    // Recursively check for twins in the rest of the string
+    twins += countTwins(str, index - 1);
 
-    return twinsCount;
+    return twins;
 }
 
 int main() {
     string input;
+    cout << "";
     cin >> input;
 
-    int result = countTwins(input, 0);
-    cout << result << endl;
+    int numberOfTwins = countTwins(input, input.length());
+
+    cout << numberOfTwins << endl;
 
     return 0;
 }

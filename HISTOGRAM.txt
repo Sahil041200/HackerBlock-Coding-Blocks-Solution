@@ -1,0 +1,47 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+long long largestRectangleArea(vector<long long>& heights) {
+    stack<long long> s;
+    long long maxArea = 0;
+    long long i = 0;
+
+    while (i < heights.size()) {
+        if (s.empty() || heights[i] >= heights[s.top()]) {
+            s.push(i);
+            i++;
+        } else {
+            long long top = s.top();
+            s.pop();
+            long long width = s.empty() ? i : i - s.top() - 1;
+            maxArea = max(maxArea, heights[top] * width);
+        }
+    }
+
+    while (!s.empty()) {
+        long long top = s.top();
+        s.pop();
+        long long width = s.empty() ? i : i - s.top() - 1;
+        maxArea = max(maxArea, heights[top] * width);
+    }
+
+    return maxArea;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    vector<long long> heights(N);
+
+    for (int i = 0; i < N; i++) {
+        cin >> heights[i];
+    }
+
+    long long result = largestRectangleArea(heights);
+    cout << result << endl;
+
+    return 0;
+}

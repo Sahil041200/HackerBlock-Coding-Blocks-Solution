@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to calculate the sum of digits of a number
+int sumOfDigits(int num) {
+    int sum = 0;
+    while (num > 0) {
+        sum += num % 10;
+        num /= 10;
+    }
+    return sum;
+}
+
+// Function to calculate the sum of prime factors of a number
+int sumOfPrimeFactors(int num) {
+    int sum = 0;
+    for (int i = 2; i * i <= num; i++) {
+        while (num % i == 0) {
+            sum += sumOfDigits(i);
+            num /= i;
+        }
+    }
+    if (num > 1) {
+        sum += sumOfDigits(num);
+    }
+    return sum;
+}
+
+// Function to check if a number is a Boston number
+bool isBostonNumber(int num) {
+    int digitSum = sumOfDigits(num);
+    int primeFactorSum = sumOfPrimeFactors(num);
+    return digitSum == primeFactorSum;
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    if (isBostonNumber(N)) {
+        cout << "1" << endl;
+    } else {
+        cout << "0" << endl;
+    }
+
+    return 0;
+}

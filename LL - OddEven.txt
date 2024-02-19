@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+
+int main() {
+    int N;
+    std::cin >> N;
+
+    std::vector<int> arr(N);
+
+    // Input the elements
+    for (int i = 0; i < N; i++) {
+        std::cin >> arr[i];
+    }
+
+    // Separate odd and even elements
+    std::vector<int> odd, even;
+    for (int i = 0; i < N; i++) {
+        if (arr[i] % 2 == 1) {
+            odd.push_back(arr[i]);
+        } else {
+            even.push_back(arr[i]);
+        }
+    }
+
+    // Merge odd and even elements
+    std::vector<int> modifiedList;
+    for (int i = 0; i < odd.size(); i++) {
+        modifiedList.push_back(odd[i]);
+    }
+    for (int i = 0; i < even.size(); i++) {
+        modifiedList.push_back(even[i]);
+    }
+
+    // Output the modified list
+    for (int i = 0; i < N; i++) {
+        std::cout << modifiedList[i] << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}

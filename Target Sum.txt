@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int countWays(vector<int>& zeni, int target, int index, int currentSum, unordered_map<string, int>& memo) {
+    if (index == zeni.size()) {
+        return (currentSum == target) ? 1 : 0;
+    }
+
+    string key = to_string(index) + "|" + to_string(currentSum);
+    if (memo.find(key) != memo.end()) {
+        return memo[key];
+    }
+
+    int addWays = countWays(zeni, target, index + 1, currentSum + zeni[index], memo);
+    int subWays = countWays(zeni, target, index + 1, currentSum - zeni[index], memo);
+
+    memo[key] = addWays + subWays;
+    return memo[key];
+}
+
+int main() {
+    int n, target;
+    cin >> n >> target;
+
+    vector<int> zeni(n);
+    for (int i = 0; i < n; i++) {
+        cin >> zeni[i];
+    }
+
+    unordered_map<string, int> memo;
+    int ways = countWays(zeni, target, 0, 0, memo);
+    cout << ways << endl;
+
+    return 0;
+}

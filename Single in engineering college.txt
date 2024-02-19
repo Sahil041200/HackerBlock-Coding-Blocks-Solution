@@ -1,44 +1,45 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
-bool canCutWood(const vector<int>& trees, int height, int x) {
-    long long woodCut = 0;
-    for (int treeHeight : trees) {
-        if (treeHeight > height) {
-            woodCut += treeHeight - height;
+bool canCutWood(vector<int>& heights, int H, int x) {
+    long long totalCut = 0;
+    for (int height : heights) {
+        if (height > H) {
+            totalCut += (height - H);
         }
     }
-    return woodCut >= x;
+    return totalCut >= x;
 }
 
 int main() {
     int N;
     cin >> N;
-    vector<int> trees(N);
-
+    vector<int> heights(N);
+    
     for (int i = 0; i < N; i++) {
-        cin >> trees[i];
+        cin >> heights[i];
     }
-
+    
     int x;
     cin >> x;
-
-    int left = 0;
-    int right = *max_element(trees.begin(), trees.end());
+    
+    int left = 1, right = *max_element(heights.begin(), heights.end());
     int result = 0;
-
+    
     while (left <= right) {
         int mid = left + (right - left) / 2;
-        if (canCutWood(trees, mid, x)) {
+        if (canCutWood(heights, mid, x)) {
             result = mid;
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
-
+    
     cout << result << endl;
+    
     return 0;
 }

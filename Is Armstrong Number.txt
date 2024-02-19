@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int countDigits(int num) {
+    int count = 0;
+    while (num > 0) {
+        num /= 10;
+        count++;
+    }
+    return count;
+}
+
+bool isArmstrongNumber(int num) {
+    int n = countDigits(num);
+    int originalNum = num;
+    int sum = 0;
+
+    while (num > 0) {
+        int digit = num % 10;
+        sum += pow(digit, n);
+        num /= 10;
+    }
+
+    return (sum == originalNum);
+}
+
+int main() {
+    int num;
+    cin >> num;
+
+    bool result = isArmstrongNumber(num);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}

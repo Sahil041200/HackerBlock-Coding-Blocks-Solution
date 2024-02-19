@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-
+// Function to generate all permutations of a string
 void generatePermutations(string prefix, string remaining, vector<string>& permutations) {
     if (remaining.empty()) {
         permutations.push_back(prefix);
@@ -28,6 +28,7 @@ int main() {
 
     bool found = false;
 
+    // Iterate through permutations and print those larger than the input string
     for (const string& perm : permutations) {
         if (perm > input) {
             cout << perm << endl;

@@ -3,9 +3,10 @@
 #include <algorithm>
 using namespace std;
 
+// Function to generate all permutations of a string
 void generatePermutations(string prefix, string remaining, string original) {
     if (remaining.empty()) {
-        
+        // Check if the current permutation is lexicographically smaller than the original string
         if (prefix < original) {
             cout << prefix << endl;
         }

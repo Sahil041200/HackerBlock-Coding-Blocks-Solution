@@ -1,32 +1,25 @@
-#include <iostream>
-#include <vector>
-
+#include<iostream>
 using namespace std;
+int count=0;
+void board(int n, int m,int i, string out){
+	if(i==n){
+		cout<<out<<" ";
+		count++;
+		return;
+	}
+	if(i>n){
+		return;
+	}
 
-vector<string> getBoardPath(int curr, int end, int M) {
-    if (curr == end) {
-        vector<string> baseres;
-        baseres.push_back("");
-        return baseres;
-    }
-    vector<string> myres;
-    for (int dice = 1; dice <= M && curr + dice <= end; dice++) {
-        vector<string> rr = getBoardPath(curr + dice, end, M);
-        for (string val : rr) {
-            myres.push_back(to_string(dice) + val);
-        }
-    }
-    return myres;
+	for(int j=1;j<=m;j++){
+		board(n,m,i+j,out+to_string(j));
+	}
 }
 
 int main() {
-    int N, M;
-    cin >> N >> M;
-    vector<string> ans = getBoardPath(0, N, M);
-    
-    for (int i = 0; i < ans.size(); i++) {
-        cout << ans[i] << " ";
-    }
-    cout << endl << ans.size() << endl; 
-    return 0;
+	int n,m;
+	cin>>n>>m;
+	board(n,m,0,"");
+	cout<<endl<<count;
+	return 0;
 }

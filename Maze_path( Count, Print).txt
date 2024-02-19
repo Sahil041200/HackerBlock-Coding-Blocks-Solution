@@ -23,13 +23,6 @@ bool maze(int n, int m, int i, int j, char* a, int l){
 			l--;
 		}
 	}
-	if(i+1<n and j+1<m){
-		a[l]='D';
-		l++;
-		if(maze(n,m,i+1,j+1,a,l)==false){
-			l--;
-		}
-	}
 	return false;
 }
 

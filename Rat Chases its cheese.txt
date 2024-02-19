@@ -1,68 +1,59 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
+
 using namespace std;
-int cnt=0;
-bool rat(char maze[][1000],int sol[][1000],int i,int j,int n,int m)
-{
-	if(i==n && j==m)
-	{
-		cnt++;
-		sol[n][m]=1;
-			for(int i=0;i<=n;i++)
-			{
-				for(int j=0;j<=m;j++)
-				cout<<sol[i][j]<<" ";
 
-				cout<<endl;
-			}
-			cout<<endl;
-		return true;
-	}
-	if(i>n||i<0||j>m ||j<0)
-	return false;
+const int MAX_N = 10;
+const int MAX_M = 10;
 
-	if(maze[i][j]=='X')
-	return false;
+int N, M;
+char grid[MAX_N][MAX_M];
+int path[MAX_N][MAX_M];
 
-	if(cnt>0)
-	return false;
-
-	sol[i][j]=1;
-     bool rtsuccess=0;
-      if(sol[i][j+1]==0)
-	 rtsuccess=rat(maze,sol,i,j+1,n,m);
-
-     bool dnsuccess=0;
-   if(sol[i+1][j]==0)
-	 dnsuccess=rat(maze,sol,i+1,j,n,m);
-
-     bool upsuccess=0;
-if(sol[i-1][j]==0)
-	 upsuccess=rat(maze,sol,i-1,j,n,m);
- 
- bool ltsuccess=0;
- if(sol[i][j-1]==0)
-	 ltsuccess=rat(maze,sol,i,j-1,n,m);
-
-	sol[i][j]=0;
-	if(rtsuccess||dnsuccess||upsuccess||ltsuccess)
-	return true;
-
-	return false;
-
+bool isSafe(int x, int y) {
+    return x >= 0 && x < N && y >= 0 && y < M && grid[x][y] == 'O' && path[x][y] == 0;
 }
+
+bool findPath(int x, int y) {
+    if (x == N - 1 && y == M - 1) {
+        path[x][y] = 1; // Mark the destination
+        return true;
+    }
+
+    if (isSafe(x, y)) {
+        path[x][y] = 1; // Mark the current cell as part of the path
+
+        // Try moving in all four directions (up, down, left, right)
+        if (findPath(x + 1, y) || findPath(x - 1, y) || findPath(x, y + 1) || findPath(x, y - 1)) {
+            return true;
+        }
+
+        path[x][y] = 0; // Backtrack
+    }
+
+    return false;
+}
+
 int main() {
-	int n,m;
-	cin>>n>>m;
-	char maze[1000][1000];
-	for(int i=0;i<n;i++)
-	{
-		for(int j=0;j<m;j++)
-		cin>>maze[i][j];
-	}
-	int sol[1000][1000]={0};
-	bool ans=rat(maze,sol,0,0,n-1,m-1);
-	if(!ans)
-	cout<<"NO PATH FOUND";
-	
-	return 0;
+    cin >> N >> M;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            cin >> grid[i][j];
+            path[i][j] = 0;
+        }
+    }
+
+    if (findPath(0, 0)) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                cout << path[i][j] << " ";
+            }
+            cout << endl;
+        }
+    } else {
+        cout << "NO PATH FOUND" << endl;
+    }
+
+    return 0;
 }

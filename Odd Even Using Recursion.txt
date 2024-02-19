@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+void printOddEven(int N) {
+    // Base case: If N is 0, stop recursion
+    if (N < 0) {
+        return;
+    }
+
+    // If N is odd, print it
+    if (N % 2 != 0) {
+        cout << N << endl;
+    }
+
+    // Recursively print odd numbers in decreasing order
+    printOddEven(N - 1);
+
+    // If N is even and not 0, print it
+    if (N % 2 == 0 && N != 0) {
+        cout << N << endl;
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    printOddEven(N);
+
+    return 0;
+}

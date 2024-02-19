@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Function to count the number of times 'hi' appears in the string
 int countHi(string str, int index) {
     if (index >= str.length() - 1) {
         return 0;
@@ -10,14 +11,15 @@ int countHi(string str, int index) {
 
     int count = 0;
     if (str[index] == 'h' && str[index + 1] == 'i') {
-        count = 1 + countHi(str, index + 2);
+        count = 1 + countHi(str, index + 2); // Move index by 2 to skip 'hi'
     } else {
-        count = countHi(str, index + 1);
+        count = countHi(str, index + 1); // Move index by 1
     }
 
     return count;
 }
 
+// Function to remove all 'hi' from the string
 string removeHi(string str, int index) {
     if (index >= str.length() - 1) {
         return str;
@@ -26,20 +28,22 @@ string removeHi(string str, int index) {
     if (str[index] == 'h' && str[index + 1] == 'i') {
         // Remove 'hi' by skipping 2 characters
         str.erase(index, 2);
-        return removeHi(str, index);
+        return removeHi(str, index); // Check again starting from the current index
     }
 
     return removeHi(str, index + 1);
 }
 
+// Function to replace all 'hi' with 'bye' in the string
 string replaceHiWithBye(string str, int index) {
     if (index >= str.length() - 1) {
         return str;
     }
 
     if (str[index] == 'h' && str[index + 1] == 'i') {
+        // Replace 'hi' with 'bye' by modifying the string
         str.replace(index, 2, "bye");
-        return replaceHiWithBye(str, index + 3);
+        return replaceHiWithBye(str, index + 3); // Check again starting after 'bye'
     }
 
     return replaceHiWithBye(str, index + 1);
