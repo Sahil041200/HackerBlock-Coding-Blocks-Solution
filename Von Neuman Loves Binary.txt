@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int binaryToDecimal(string binary) {
+    int decimal = 0;
+    int size = binary.size();
+
+    for (int i = size - 1; i >= 0; --i) {
+        if (binary[i] == '1') {
+            int power = size - 1 - i;
+            decimal += pow(2, power);
+        }
+    }
+
+    return decimal;
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    for (int i = 0; i < N; ++i) {
+        string binary;
+        cin >> binary;
+
+        int decimal = binaryToDecimal(binary);
+        cout << decimal << endl;
+    }
+
+    return 0;
+}

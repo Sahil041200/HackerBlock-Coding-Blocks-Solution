@@ -42,7 +42,6 @@ int main() {
 
         findRoses(prices, money);
 
-        // Print a blank line after each test case
         cout << endl;
     }
 

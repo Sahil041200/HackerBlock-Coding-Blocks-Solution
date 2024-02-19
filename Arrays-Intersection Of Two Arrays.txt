@@ -1,0 +1,58 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> findIntersection(int arr1[], int arr2[], int n) {
+    unordered_map<int, int> freqMap;
+    vector<int> result;
+
+    // Store frequency of elements in the first array
+    for (int i = 0; i < n; ++i) {
+        freqMap[arr1[i]]++;
+    }
+
+    // Check for elements of the second array in the frequency map
+    // If found, add it to the result vector and decrease its frequency
+    for (int i = 0; i < n; ++i) {
+        if (freqMap.find(arr2[i]) != freqMap.end() && freqMap[arr2[i]] > 0) {
+            result.push_back(arr2[i]);
+            freqMap[arr2[i]]--;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    int arr1[n], arr2[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr1[i];
+    }
+    for (int i = 0; i < n; ++i) {
+        cin >> arr2[i];
+    }
+
+    // Sort the arrays
+    sort(arr1, arr1 + n);
+    sort(arr2, arr2 + n);
+
+    // Find intersection of the two arrays
+    vector<int> intersection = findIntersection(arr1, arr2, n);
+
+    // Print the intersection in the specified format
+    cout << "[";
+    for (int i = 0; i < intersection.size(); ++i) {
+        cout << intersection[i];
+        if (i != intersection.size() - 1) {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+
+    return 0;
+}

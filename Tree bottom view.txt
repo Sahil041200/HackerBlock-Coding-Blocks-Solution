@@ -1,0 +1,85 @@
+#include <iostream>
+#include <queue>
+#include <map>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node *left, *right;
+
+    Node(int value) {
+        data = value;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+void bottomView(Node *root) {
+    if (root == nullptr) return;
+
+    queue<pair<Node *, int>> q;
+    map<int, int> m;
+
+    q.push(make_pair(root, 0)); // Horizontal distance of root is 0
+
+    while (!q.empty()) {
+        Node *node = q.front().first;
+        int hd = q.front().second;
+        q.pop();
+
+        m[hd] = node->data;
+
+        if (node->left != nullptr) {
+            q.push(make_pair(node->left, hd - 1));
+        }
+        if (node->right != nullptr) {
+            q.push(make_pair(node->right, hd + 1));
+        }
+    }
+
+    // Print the bottom view nodes
+    for (auto it = m.begin(); it != m.end(); ++it) {
+        cout << it->second << " ";
+    }
+}
+
+Node *buildTree() {
+    int val;
+    cin >> val;
+
+    if (val == -1) {
+        return nullptr;
+    }
+
+    Node *root = new Node(val);
+    queue<Node *> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        Node *current = q.front();
+        q.pop();
+
+        int leftValue, rightValue;
+        cin >> leftValue >> rightValue;
+
+        if (leftValue != -1) {
+            current->left = new Node(leftValue);
+            q.push(current->left);
+        }
+        if (rightValue != -1) {
+            current->right = new Node(rightValue);
+            q.push(current->right);
+        }
+    }
+
+    return root;
+}
+
+int main() {
+    Node *root = buildTree();
+    bottomView(root);
+    cout << endl;
+
+    return 0;
+}

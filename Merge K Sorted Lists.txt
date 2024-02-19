@@ -1,0 +1,97 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+// Node structure for the linked list
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Custom comparator for priority queue
+struct CompareNodes {
+    bool operator()(Node* a, Node* b) const {
+        return a->data > b->data; // Min-heap based on node data
+    }
+};
+
+// Function to merge K sorted linked lists
+Node* mergeKLists(vector<Node*>& lists) {
+    priority_queue<Node*, vector<Node*>, CompareNodes> pq;
+
+    // Push the heads of all lists into the priority queue
+    for (Node* list : lists) {
+        if (list) {
+            pq.push(list);
+        }
+    }
+
+    if (pq.empty()) {
+        return nullptr; // No elements in the lists
+    }
+
+    Node* dummy = new Node(0); // Dummy node to build the merged list
+    Node* tail = dummy;
+
+    // Process nodes in the priority queue
+    while (!pq.empty()) {
+        Node* minNode = pq.top();
+        pq.pop();
+
+        if (minNode->next) {
+            pq.push(minNode->next); // Push the next node of the popped node if it exists
+        }
+
+        tail->next = minNode;
+        tail = tail->next;
+    }
+
+    return dummy->next; // Return the merged sorted list
+}
+
+// Function to print the linked list
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+int main() {
+    int K, N;
+    cin >> K >> N;
+
+    vector<Node*> lists(K);
+
+    // Read K sorted linked lists
+    for (int i = 0; i < K; ++i) {
+        Node* head = nullptr;
+        Node* tail = nullptr;
+
+        for (int j = 0; j < N; ++j) {
+            int val;
+            cin >> val;
+
+            Node* newNode = new Node(val);
+            if (!head) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail->next = newNode;
+                tail = newNode;
+            }
+        }
+
+        lists[i] = head;
+    }
+
+    // Merge the K lists
+    Node* mergedList = mergeKLists(lists);
+
+    // Print the merged sorted list
+    printList(mergedList);
+    
+    return 0;
+}

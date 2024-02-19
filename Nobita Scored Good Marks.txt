@@ -1,0 +1,17 @@
+def min_candies_returned(x, n):
+    # Calculate the closest multiple of n to x
+    closest_multiple = (x // n) * n
+
+    difference = x - closest_multiple
+
+    if difference <= n // 2:
+        return difference
+    else:
+        return n - difference
+
+T = int(input())
+
+for _ in range(T):
+    x, n = map(int, input().split())
+    min_returned = min_candies_returned(x, n)
+    print(min_returned)

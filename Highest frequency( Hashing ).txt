@@ -1,0 +1,32 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    unordered_map<int, int> frequency;
+
+    // Input the array elements and count their frequency
+    for (int i = 0; i < n; ++i) {
+        int num;
+        cin >> num;
+        frequency[num]++;
+    }
+
+    int maxFreq = 0;
+    int maxFreqNumber;
+
+    // Iterate through the frequency map to find the number with maximum frequency
+    for (auto it = frequency.begin(); it != frequency.end(); ++it) {
+        if (it->second > maxFreq) {
+            maxFreq = it->second;
+            maxFreqNumber = it->first;
+        }
+    }
+
+    cout << maxFreqNumber << endl;
+
+    return 0;
+}

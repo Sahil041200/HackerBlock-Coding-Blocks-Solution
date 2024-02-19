@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int trappedWater(vector<int>& towers) {
+    int n = towers.size();
+    vector<int> leftMax(n), rightMax(n);
+
+    leftMax[0] = towers[0];
+    for (int i = 1; i < n; ++i) {
+        leftMax[i] = max(leftMax[i - 1], towers[i]);
+    }
+
+    rightMax[n - 1] = towers[n - 1];
+    for (int i = n - 2; i >= 0; --i) {
+        rightMax[i] = max(rightMax[i + 1], towers[i]);
+    }
+
+    int totalWater = 0;
+    for (int i = 0; i < n; ++i) {
+        int minHeight = min(leftMax[i], rightMax[i]);
+        totalWater += max(0, minHeight - towers[i]);
+    }
+
+    return totalWater;
+}
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int N;
+        cin >> N;
+
+        vector<int> towers(N);
+        for (int i = 0; i < N; ++i) {
+            cin >> towers[i];
+        }
+
+        int waterCollected = trappedWater(towers);
+        cout << waterCollected << endl;
+    }
+
+    return 0;
+}

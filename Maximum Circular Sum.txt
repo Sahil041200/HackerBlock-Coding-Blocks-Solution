@@ -3,57 +3,54 @@
 #include <algorithm>
 using namespace std;
 
-int kadane(const vector<int>& arr) {
-    int max_so_far = arr[0];
-    int max_ending_here = arr[0];
+int maxSubarraySum(vector<int>& nums) {
+    int n = nums.size();
 
-    for (size_t i = 1; i < arr.size(); ++i) {
-        max_ending_here = max(arr[i], max_ending_here + arr[i]);
-        max_so_far = max(max_so_far, max_ending_here);
+    int maxSum = nums[0];
+    int currentMax = nums[0];
+    for (int i = 1; i < n; ++i) {
+        currentMax = max(nums[i], currentMax + nums[i]);
+        maxSum = max(maxSum, currentMax);
     }
 
-    return max_so_far;
+    return maxSum;
 }
 
-int max_circular_sum(const vector<int>& arr) {
-    int n = arr.size();
+int maxCircularSubarraySum(vector<int>& nums) {
+    int n = nums.size();
 
-    // Case 1: Maximum circular sum without wrapping
-    int max_without_wrap = kadane(arr);
+    int kadaneSum = maxSubarraySum(nums);
 
-    // Case 2: Maximum circular sum with wrapping
-    // To find the maximum circular sum, we need to subtract the minimum subarray sum
-    // from the total sum of the array.
-    int total_sum = 0;
-    for (int num : arr) {
-        total_sum += num;
+    int totalSum = 0;
+    for (int i = 0; i < n; ++i) {
+        totalSum += nums[i];
     }
 
-    vector<int> inverted_arr;
-    inverted_arr.reserve(n);
-    for (int num : arr) {
-        inverted_arr.push_back(-num);
+    for (int i = 0; i < n; ++i) {
+        nums[i] = -nums[i];
     }
-    int max_with_wrap = total_sum + kadane(inverted_arr);
+    int invertedKadaneSum = maxSubarraySum(nums);
 
-    return max(max_without_wrap, max_with_wrap);
+    int circularSum = totalSum + invertedKadaneSum;
+
+    return max(kadaneSum, circularSum);
 }
 
 int main() {
     int t;
-    cin >> t; // Number of test cases
+    cin >> t;
 
-    for (int i = 0; i < t; ++i) {
+    while (t--) {
         int n;
-        cin >> n; // Size of array
+        cin >> n;
 
-        vector<int> arr(n);
-        for (int j = 0; j < n; ++j) {
-            cin >> arr[j]; // Array elements
+        vector<int> nums(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> nums[i];
         }
 
-        int result = max_circular_sum(arr);
-        cout << result << endl;
+        int maxCircularSum = maxCircularSubarraySum(nums);
+        cout << maxCircularSum << endl;
     }
 
     return 0;
