@@ -1,0 +1,37 @@
+def check_distance(stalls, cows, min_distance):
+    cow_count = 1
+    last_stall = stalls[0]
+    
+    for stall in stalls[1:]:
+        if stall - last_stall >= min_distance:
+            cow_count += 1
+            last_stall = stall
+        
+        if cow_count == cows:
+            return True
+    
+    return False
+
+def largest_minimum_distance(N, C, stall_positions):
+    stall_positions.sort()
+    
+    low, high = 0, stall_positions[-1] - stall_positions[0]
+    result = 0
+    
+    while low <= high:
+        mid = (low + high) // 2
+        
+        if check_distance(stall_positions, C, mid):
+            result = mid
+            low = mid + 1
+        else:
+            high = mid - 1
+    
+    return result
+
+# Input
+N, C = map(int, input().split())
+stall_positions = list(map(int, input().split()))
+
+# Output
+print(largest_minimum_distance(N, C, stall_positions))

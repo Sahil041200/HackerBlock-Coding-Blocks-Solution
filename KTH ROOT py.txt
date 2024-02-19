@@ -1,0 +1,33 @@
+def binary_search(n, k):
+    low = 1
+    high = n
+    result = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+        power = 1
+
+        for i in range(k):
+            if power > n // mid:
+                power = n + 1  
+                break
+            power *= mid
+
+        if power <= n:
+            result = mid
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return result
+
+def main():
+    T = int(input())
+
+    for _ in range(T):
+        n, k = map(int, input().split())
+        x = binary_search(n, k)
+        print(x)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+char getMaxFrequencyChar(const std::string& str) {
+    std::unordered_map<char, int> frequencyMap;
+
+    for (char c : str) {
+        frequencyMap[c]++;
+    }
+
+    char maxChar = '\0';
+    int maxFrequency = 0;
+
+    for (const auto& entry : frequencyMap) {
+        if (entry.second > maxFrequency) {
+            maxFrequency = entry.second;
+            maxChar = entry.first;
+        }
+    }
+
+    return maxChar;
+}
+
+int main() {
+    std::string input;
+    std::cin >> input;
+
+    char result = getMaxFrequencyChar(input);
+    std::cout << result << std::endl;
+
+    return 0;
+}

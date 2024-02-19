@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int M, N;
+    cin >> M >> N;
+    int arr[10][10]; 
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            cin >> arr[i][j];
+        }
+    }
+
+    for (int j = 0; j < N; j++) {
+        if (j % 2 == 0) { 
+            for (int i = 0; i < M; i++) {
+                cout << arr[i][j];
+                if (i != M - 1 || j != N - 1) {
+                    cout << ", ";
+                }
+            }
+        } else { 
+            for (int i = M - 1; i >= 0; i--) {
+                cout << arr[i][j];
+                if (i != 0 || j != N - 1) {
+                    cout << ", ";
+                }
+            }
+        }
+    }
+
+    cout <<","<<" END" << endl;
+
+    return 0;
+}

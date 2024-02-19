@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+string replaceCharacters(string input) {
+    string result = "";
+    for (int i = 0; i < input.length(); i++) {
+        if (i % 2 == 0) { // Even position character
+            result += char(input[i] + 1);
+        } else { // Odd position character
+            result += char(input[i] - 1);
+        }
+    }
+    return result;
+}
+
+int main() {
+    string input;
+    cin >> input;
+
+    string result = replaceCharacters(input);
+    cout << result << endl;
+
+    return 0;
+}

@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+
+std::string compressString(const std::string& input) {
+    std::string compressed;
+    
+    if (input.empty()) {
+        return compressed;
+    }
+    
+    char current_char = input[0];
+    int count = 1;
+    
+    for (size_t i = 1; i < input.size(); ++i) {
+        if (input[i] == current_char) {
+            count++;
+        } else {
+            compressed += current_char + std::to_string(count);
+            current_char = input[i];
+            count = 1;
+        }
+    }
+    
+    compressed += current_char + std::to_string(count);
+    
+    return compressed;
+}
+
+int main() {
+    std::string input;
+    std::cin >> input;
+    
+    std::string compressed = compressString(input);
+    std::cout << compressed << std::endl;
+    
+    return 0;
+}

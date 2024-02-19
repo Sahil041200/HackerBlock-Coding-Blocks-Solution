@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+#include <cctype> // for islower() and isupper()
+
+std::string toggleCase(const std::string& input) {
+    std::string result = input;
+    
+    for (char& c : result) {
+        if (std::islower(c)) {
+            c = std::toupper(c);
+        } else if (std::isupper(c)) {
+            c = std::tolower(c);
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    std::string input;
+    std::cin >> input;
+    
+    std::string output = toggleCase(input);
+    std::cout << output << std::endl;
+    
+    return 0;
+}

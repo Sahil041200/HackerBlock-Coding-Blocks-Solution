@@ -1,0 +1,19 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+bool isPalindrome(const std::string& str) {
+    std::string reversedStr = str;
+    std::reverse(reversedStr.begin(), reversedStr.end());
+    return str == reversedStr;
+}
+
+int main() {
+    std::string input;
+    std::cin >> input;
+
+    bool result = isPalindrome(input);
+    std::cout << std::boolalpha << result << std::endl;
+
+    return 0;
+}

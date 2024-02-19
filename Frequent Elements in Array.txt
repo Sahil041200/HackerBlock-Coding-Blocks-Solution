@@ -1,37 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector<int> topKFrequent(vector<int>& nums, int k) {
-    unordered_map<int, int> freq;
-    priority_queue<pair<int, int>> pq;
-    vector<int> res;
-
-    for(int num : nums)
-        freq[num]++;
-
-    for(auto it = freq.begin(); it != freq.end(); it++)
-        pq.push(make_pair(it->second, it->first));
-
-    for(int i = 0; i < k; i++) {
-        res.push_back(pq.top().second);
-        pq.pop();
-    }
-
-    sort(res.begin(), res.end());
-    return res;
-}
-
 int main() {
     int n, k;
     cin >> n >> k;
     vector<int> nums(n);
-    for(int i = 0; i < n; i++)
-        cin >> nums[i];
-
-    vector<int> res = topKFrequent(nums, k);
-    for(int num : res)
-        cout << num << " ";
+    for(int i=0; i<n; i++) cin >> nums[i];
+    unordered_map<int, int> freq;
+    for(int num : nums) freq[num]++;
+    priority_queue<pair<int, int>> pq;
+    for(auto it : freq) pq.push({it.second, it.first});
+    vector<int> res;
+    while(k--) {
+        res.push_back(pq.top().second);
+        pq.pop();
+    }
+    sort(res.begin(), res.end());
+    for(int num : res) cout << num << " ";
     cout << endl;
-
     return 0;
 }
