@@ -4,25 +4,6 @@
 
 using namespace std;
 
-vector<int> findNextGreaterElement(vector<int>& arr) {
-    int n = arr.size();
-    vector<int> result(n, -1);
-    stack<int> s;
-
-    for (int i = 0; i < 2 * n; i++) {
-        int current = arr[i % n];
-        while (!s.empty() && arr[s.top()] < current) {
-            result[s.top()] = current;
-            s.pop();
-        }
-        if (i < n) {
-            s.push(i);
-        }
-    }
-
-    return result;
-}
-
 int main() {
     int n;
     cin >> n;
@@ -32,11 +13,29 @@ int main() {
         cin >> arr[i];
     }
 
-    vector<int> result = findNextGreaterElement(arr);
+    vector<int> nextGreater(n, -1); // Initialize with -1 for all elements
+    stack<int> s;
 
     for (int i = 0; i < n; i++) {
-        cout << result[i] << " ";
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            nextGreater[s.top()] = arr[i];
+            s.pop();
+        }
+        s.push(i);
     }
+
+    // Now, we need to handle circular elements
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            nextGreater[s.top()] = arr[i];
+            s.pop();
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << nextGreater[i] << " ";
+    }
+
     cout << endl;
 
     return 0;

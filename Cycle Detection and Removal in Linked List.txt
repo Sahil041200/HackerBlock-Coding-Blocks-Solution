@@ -1,72 +1,85 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node {
+class node
+{
 public:
     int data;
-    Node* next;
-    Node(int d) {
+    node *next;
+    node(int d)
+    {
         data = d;
         next = NULL;
     }
 };
 
 // head - Head pointer of the Linked List
-// Return a boolean value indicating the presence of a cycle
+// Return a boolean value indicating the presence of cycle
 // If the cycle is present, modify the linked list to remove the cycle as well
-bool floydCycleRemoval(Node* head) {
-    if (head == NULL || head->next == NULL) {
-        return false;  // No cycle can exist with less than 2 nodes
-    }
+bool floydCycleRemoval(node *head)
+{
+    /* Code here */
+	node *slow = head;
+	node *fast = head;
 
-    Node* slow = head;
-    Node* fast = head;
+	while (fast != NULL && fast->next != NULL){
 
-    // Step 1: Detect the cycle using Floyd's Tortoise and Hare algorithm
-    while (fast != NULL && fast->next != NULL) {
-        slow = slow->next;
-        fast = fast->next->next;
-        if (slow == fast) {
-            // Cycle detected
-            break;
-        }
-    }
+		fast = fast->next->next;
+		slow = slow->next;
 
-    if (slow != fast) {
-        return false;  // No cycle detected
-    }
+		if (fast == slow) {
+            fast = head;
+			
+            while(slow->next != fast->next)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+            slow->next=NULL;
 
-    // Step 2: Remove the cycle
-    slow = head;
-    while (slow->next != fast->next) {
-        slow = slow->next;
-        fast = fast->next;
-    }
+			return 1;
+		}
+	}
 
-    fast->next = NULL;  // Remove the cycle
-
-    return true;  // Cycle was detected and removed
+	return 0;
 }
 
-void buildCycleList(Node*& head) {
-    unordered_map<int, Node*> hash;
+/*
+*
+*
+*   You do not need to refer or modify any code below this. 
+*   Only modify the above function definition.
+*	Any modications to code below could lead to a 'Wrong Answer' verdict despite above code being correct.
+*	You do not even need to read or know about the code below.
+*
+*
+*
+*/
+
+void buildCycleList(node *&head)
+{
+    unordered_map<int, node *> hash;
     int x;
     cin >> x;
-    if (x == -1) {
+    if (x == -1)
+    {
         head = NULL;
         return;
     }
-    head = new Node(x);
+    head = new node(x);
     hash[x] = head;
-    Node* current = head;
-    while (x != -1) {
+    node *current = head;
+    while (x != -1)
+    {
         cin >> x;
-        if (x == -1) break;
-        if (hash.find(x) != hash.end()) {
+        if (x == -1)
+            break;
+        if (hash.find(x) != hash.end())
+        {
             current->next = hash[x];
             return;
         }
-        Node* n = new Node(x);
+        node *n = new node(x);
         current->next = n;
         current = n;
         hash[x] = n;
@@ -74,10 +87,13 @@ void buildCycleList(Node*& head) {
     current->next = NULL;
 }
 
-void printLinkedList(Node* head) {
+void printLinkedList(node *head)
+{
     unordered_set<int> s;
-    while (head != NULL) {
-        if (s.find(head->data) != s.end()) {
+    while (head != NULL)
+    {
+        if (s.find(head->data) != s.end())
+        {
             cout << "\nCycle detected at " << head->data;
             return;
         }
@@ -87,15 +103,19 @@ void printLinkedList(Node* head) {
     }
 }
 
-int main() {
-    Node* head = NULL;
+int main()
+{
+    node *head = NULL;
 
     buildCycleList(head);
 
     bool cyclePresent = floydCycleRemoval(head);
-    if (cyclePresent) {
+    if (cyclePresent)
+    {
         cout << "Cycle was present\n";
-    } else {
+    }
+    else
+    {
         cout << "No cycle\n";
     }
 

@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+class MinStack {
+public:
+    stack<int> mainStack;
+    stack<int> minStack;
+
+    void push(int x) {
+        mainStack.push(x);
+        if (minStack.empty() || x <= minStack.top()) {
+            minStack.push(x);
+        }
+    }
+
+    void pop() {
+        if (mainStack.empty()) {
+            return;
+        }
+        if (mainStack.top() == minStack.top()) {
+            minStack.pop();
+        }
+        mainStack.pop();
+    }
+
+    int top() {
+        return mainStack.top();
+    }
+
+    int getMin() {
+        return minStack.top();
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    vector<string> operations(n);
+    vector<int> results;
+
+    MinStack stack;
+
+    for (int i = 0; i < n; i++) {
+        cin >> operations[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (operations[i] == "push") {
+            int val;
+            cin >> val;
+            stack.push(val);
+        } else if (operations[i] == "pop") {
+            stack.pop();
+        } else if (operations[i] == "top") {
+            results.push_back(stack.top());
+        } else if (operations[i] == "getMin") {
+            results.push_back(stack.getMin());
+        }
+    }
+
+    for (int result : results) {
+        cout << result << " ";
+    }
+
+    return 0;
+}

@@ -50,6 +50,13 @@ int main() {
     root1 = insert();
     root2 = insert();
 
+    /* Uncomment the following lines to print the trees
+    print(root1);
+    cout << endl;
+    print(root2);
+    cout << endl;
+    */
+
     if (areStructurallyIdentical(root1, root2)) {
         cout << "true\n";
     } else {

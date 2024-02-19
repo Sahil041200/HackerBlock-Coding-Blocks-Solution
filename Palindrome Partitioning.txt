@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 bool isPalindrome(const string& s, int start, int end) {
@@ -14,22 +13,24 @@ bool isPalindrome(const string& s, int start, int end) {
     return true;
 }
 
-int minPartitions(const string& s) {
+int minCut(string s) {
     int n = s.length();
+    if (n <= 1) {
+        return 0;
+    }
+
     vector<int> dp(n, 0);
+    vector<vector<bool>> isPal(n, vector<bool>(n, false));
 
-    for (int i = 1; i < n; ++i) {
-        dp[i] = i;
-
+    for (int i = 0; i < n; ++i) {
+        int minCuts = i;
         for (int j = 0; j <= i; ++j) {
-            if (isPalindrome(s, j, i)) {
-                if (j == 0) {
-                    dp[i] = 0;
-                } else {
-                    dp[i] = min(dp[i], dp[j - 1] + 1);
-                }
+            if (s[i] == s[j] && (i - j < 2 || isPal[j + 1][i - 1])) {
+                isPal[j][i] = true;
+                minCuts = (j == 0) ? 0 : min(minCuts, dp[j - 1] + 1);
             }
         }
+        dp[i] = minCuts;
     }
 
     return dp[n - 1];
@@ -43,8 +44,7 @@ int main() {
         string s;
         cin >> s;
 
-        int result = minPartitions(s);
-
+        int result = minCut(s);
         cout << result << endl;
     }
 

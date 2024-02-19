@@ -1,16 +1,13 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-long long countWaysToMakeChange(int N, vector<int>& coins) {
-    vector<long long> dp(N + 1, 0);
+int countWays(int N, vector<int>& coins) {
+    vector<int> dp(N + 1, 0);
+    dp[0] = 1; // Base case: 1 way to make change for 0 cents
 
-    // There is one way to make change for zero cents, i.e., no coins
-    dp[0] = 1;
-
-    for (int i = 0; i < coins.size(); ++i) {
-        for (int j = coins[i]; j <= N; ++j) {
+    for (int i = 0; i < coins.size(); i++) {
+        for (int j = coins[i]; j <= N; j++) {
             dp[j] += dp[j - coins[i]];
         }
     }
@@ -19,18 +16,17 @@ long long countWaysToMakeChange(int N, vector<int>& coins) {
 }
 
 int main() {
-    int N, M;
-    cin >> N >> M;
+    int N, m;
+    cin >> N >> m;
 
-    vector<int> coins(M);
-
-    for (int i = 0; i < M; ++i) {
+    vector<int> coins(m);
+    for (int i = 0; i < m; i++) {
         cin >> coins[i];
     }
 
-    long long result = countWaysToMakeChange(N, coins);
-
+    int result = countWays(N, coins);
     cout << result << endl;
 
     return 0;
 }
+

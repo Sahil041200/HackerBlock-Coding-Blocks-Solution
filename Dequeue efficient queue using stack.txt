@@ -4,10 +4,6 @@
 using namespace std;
 
 class QueueWithTwoStacks {
-private:
-    stack<int> stack1;
-    stack<int> stack2;
-
 public:
     void enqueue(int x) {
         stack1.push(x);
@@ -15,34 +11,40 @@ public:
 
     int dequeue() {
         if (stack2.empty()) {
-            if (stack1.empty()) {
-                cout << "Queue is empty." << endl;
-                return -1; // Handle underflow condition
-            }
             while (!stack1.empty()) {
                 stack2.push(stack1.top());
                 stack1.pop();
             }
         }
 
-        int front = stack2.top();
+        if (stack2.empty()) {
+            // The queue is empty
+            return -1;
+        }
+
+        int frontElement = stack2.top();
         stack2.pop();
-        return front;
+        return frontElement;
     }
+
+private:
+    stack<int> stack1;  // Used for enqueue operation
+    stack<int> stack2;  // Used for dequeue operation
 };
 
 int main() {
-    int N;
-    cin >> N;
+    int n;
+    cin >> n;
 
     QueueWithTwoStacks queue;
 
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < n; i++) {
         queue.enqueue(i);
     }
 
-    for (int i = 0; i < N; i++) {
-        cout << queue.dequeue() << " ";
+    for (int i = 0; i < n; i++) {
+        int frontElement = queue.dequeue();
+        cout << frontElement << " ";
     }
 
     cout << endl;

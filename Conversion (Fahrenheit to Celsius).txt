@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int minFahrenheit, maxFahrenheit, step;
+    cout << "";
+    cin >> minFahrenheit;
+    cout << "";
+    cin >> maxFahrenheit;
+    cout << "";
+    cin >> step;
+
+    for (int fahrenheit = minFahrenheit; fahrenheit <= maxFahrenheit; fahrenheit += step) {
+        int celsius = (5.0 / 9.0) * (fahrenheit - 32);
+        cout << fahrenheit << "\t" << celsius << endl;
+    }
+
+    return 0;
+}

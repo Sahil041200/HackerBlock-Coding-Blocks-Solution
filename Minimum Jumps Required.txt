@@ -1,0 +1,52 @@
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int minJumps(int arr[], int n) {
+    if (n <= 1) {
+        return 0; // If the array has 1 element or no elements, no jumps needed
+    }
+
+    if (arr[0] == 0) {
+        return INT_MAX; // If the first element is 0, unable to move forward
+    }
+
+    int jumps[n];
+    jumps[0] = 0;
+
+    for (int i = 1; i < n; i++) {
+        jumps[i] = INT_MAX;
+        for (int j = 0; j < i; j++) {
+            if (i <= j + arr[j] && jumps[j] != INT_MAX) {
+                jumps[i] = min(jumps[i], jumps[j] + 1);
+                break; // Break after finding the minimum jump for this index
+            }
+        }
+    }
+
+    return jumps[n - 1];
+}
+
+int main() {
+    int t;
+    cin >> t;
+
+    while (t--) {
+        int n;
+        cin >> n;
+
+        int arr[n];
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+
+        int result = minJumps(arr, n);
+        if (result != INT_MAX) {
+            cout << result << endl;
+        } else {
+            cout << "Cannot reach the end." << endl;
+        }
+    }
+
+    return 0;
+}

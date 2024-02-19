@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int MOD = 1000000007;
+
+int countDistinctSubsequences(const string& s) {
+    int n = s.length();
+    vector<int> dp(n + 1, 0);
+    dp[0] = 1;
+
+    vector<int> lastOccur(256, -1);
+
+    for (int i = 1; i <= n; ++i) {
+        dp[i] = (2 * dp[i - 1]) % MOD;
+
+        if (lastOccur[s[i - 1]] != -1) {
+            dp[i] = (dp[i] - dp[lastOccur[s[i - 1]] - 1] + MOD) % MOD;
+        }
+
+        lastOccur[s[i - 1]] = i;
+    }
+
+    return dp[n];
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string s;
+        cin >> s;
+        int distinctSubsequences = countDistinctSubsequences(s);
+        cout << distinctSubsequences << endl;
+    }
+
+    return 0;
+}

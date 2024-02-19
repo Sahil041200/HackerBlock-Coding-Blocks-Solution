@@ -2,41 +2,39 @@
 #include <stack>
 #include <string>
 
-using namespace std;
+bool isBalanced(const std::string& str) {
+    std::stack<char> s;
 
-bool areBracketsBalanced(string str) {
-    stack<char> s;
-    
-    for (char bracket : str) {
-        if (bracket == '(' || bracket == '{' || bracket == '[') {
-            s.push(bracket);
-        } else {
+    for (char c : str) {
+        if (c == '(' || c == '{' || c == '[') {
+            s.push(c);
+        } else if (c == ')' || c == '}' || c == ']') {
             if (s.empty()) {
-                return false;  // Unmatched closing bracket
+                return false;
             }
             
             char top = s.top();
             s.pop();
             
-            if ((bracket == ')' && top != '(') ||
-                (bracket == '}' && top != '{') ||
-                (bracket == ']' && top != '[')) {
-                return false;  // Mismatched opening and closing brackets
+            if ((c == ')' && top != '(') || 
+                (c == '}' && top != '{') || 
+                (c == ']' && top != '[')) {
+                return false;
             }
         }
     }
-    
-    return s.empty();  // Check if there are unmatched opening brackets
+
+    return s.empty();
 }
 
 int main() {
-    string input;
-    cin >> input;
+    std::string input;
+    std::cin >> input;
 
-    if (areBracketsBalanced(input)) {
-        cout << "Yes" << endl;
+    if (isBalanced(input)) {
+        std::cout << "Yes" << std::endl;
     } else {
-        cout << "No" << endl;
+        std::cout << "No" << std::endl;
     }
 
     return 0;

@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int change(int amount, vector<int>& coins) {
+    vector<int> dp(amount + 1, 0);
+    dp[0] = 1; // Base case: 1 way to make change for 0 amount
+
+    for (int coin : coins) {
+        for (int i = coin; i <= amount; i++) {
+            dp[i] += dp[i - coin];
+        }
+    }
+
+    return dp[amount];
+}
+
+int main() {
+    int amount, size;
+    cin >> amount >> size;
+
+    vector<int> coins(size);
+    for (int i = 0; i < size; i++) {
+        cin >> coins[i];
+    }
+
+    int result = change(amount, coins);
+    cout << result << endl;
+
+    return 0;
+}

@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    long long N;
+    cin >> N;
+
+    int evenSum = 0;
+    int oddSum = 0;
+    bool isEven = false;
+
+    while (N > 0) {
+        int digit = N % 10;
+
+        if (isEven) {
+            evenSum += digit;
+        } else {
+            oddSum += digit;
+        }
+
+        isEven = !isEven;
+        N /= 10;
+    }
+
+    cout << oddSum << endl;
+    cout << evenSum << endl;
+
+    return 0;
+}

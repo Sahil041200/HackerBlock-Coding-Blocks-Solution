@@ -1,20 +1,42 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
+
+// Function to find one node from each list such that the sum of the values of the nodes is equal to the target
+void findTriplets(vector<int>& a, vector<int>& b, vector<int>& c, int target) {
+    bool found = false;
+    
+    for (int i = 0; i < a.size(); ++i) {
+        for (int j = 0; j < b.size(); ++j) {
+            for (int k = 0; k < c.size(); ++k) {
+                if (a[i] + b[j] + c[k] == target) {
+                    cout << a[i] << " " << b[j] << " " << c[k] << endl;
+                    found = true;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+        if (found) break;
+    }
+
+    if (!found) {
+        cout << "No such triplets found." << endl;
+    }
+}
 
 int main() {
     int n, m, k, target;
     cin >> n >> m >> k;
     vector<int> a(n), b(m), c(k);
-    for(int i=0; i<n; i++) cin >> a[i];
-    for(int i=0; i<m; i++) cin >> b[i];
-    for(int i=0; i<k; i++) cin >> c[i];
+
+    for (int i = 0; i < n; ++i) cin >> a[i];
+    for (int i = 0; i < m; ++i) cin >> b[i];
+    for (int i = 0; i < k; ++i) cin >> c[i];
     cin >> target;
-    for(int i=0; i<n; i++)
-        for(int j=0; j<m; j++)
-            for(int l=0; l<k; l++)
-                if(a[i] + b[j] + c[l] == target) {
-                    cout << a[i] << " " << b[j] << " " << c[l] << endl;
-                    return 0;
-                }
+
+    findTriplets(a, b, c, target);
+
     return 0;
 }

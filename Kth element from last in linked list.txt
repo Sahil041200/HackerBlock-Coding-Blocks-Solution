@@ -1,8 +1,11 @@
 #include <iostream>
 
+using namespace std;
+
 struct Node {
     int data;
     Node* next;
+
     Node(int val) : data(val), next(nullptr) {}
 };
 
@@ -13,7 +16,8 @@ Node* findKthFromEnd(Node* head, int k) {
     // Move the fast pointer k nodes ahead
     for (int i = 0; i < k; i++) {
         if (fast == nullptr) {
-            return nullptr; // k is greater than the number of nodes
+            // Handle the case where k is greater than the number of nodes in the list
+            return nullptr;
         }
         fast = fast->next;
     }
@@ -28,40 +32,38 @@ Node* findKthFromEnd(Node* head, int k) {
 }
 
 int main() {
-    Node* head = nullptr;
     int value;
+    Node* head = nullptr;
+    Node* tail = nullptr;
 
-    // Input the linked list
+    // Build the linked list
     while (true) {
-        std::cin >> value;
+        cin >> value;
         if (value == -1) {
             break;
         }
-
         Node* newNode = new Node(value);
         if (head == nullptr) {
             head = newNode;
+            tail = newNode;
         } else {
-            Node* current = head;
-            while (current->next != nullptr) {
-                current = current->next;
-            }
-            current->next = newNode;
+            tail->next = newNode;
+            tail = newNode;
         }
     }
 
     int k;
-    std::cin >> k;
+    cin >> k;
 
-    Node* result = findKthFromEnd(head, k);
+    Node* kthFromEnd = findKthFromEnd(head, k);
 
-    if (result != nullptr) {
-        std::cout << result->data << std::endl;
+    if (kthFromEnd) {
+        cout << kthFromEnd->data << endl;
     } else {
-        std::cout << "Invalid value of k" << std::endl;
+        cout << "Invalid k value" << endl;
     }
 
-    // Free allocated memory
+    // Free memory by deleting the linked list
     while (head != nullptr) {
         Node* temp = head;
         head = head->next;

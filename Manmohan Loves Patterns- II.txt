@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    
+    int l = 1;
+    cout << l << endl;
+    l = 2;
+    while (l <= n) {
+        int c = 1;
+        while (c <= l) {
+            if (c == 1 || c == l) {
+                cout << l - 1;
+            } else {
+                cout << "0";
+            }
+            c++;
+        }
+        cout << endl;
+        l++;
+    }
+    
+    return 0;
+}

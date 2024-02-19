@@ -1,31 +1,28 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-int knapsack(int N, int S, vector<int>& sizes, vector<int>& values) {
-    vector<vector<int>> dp(N + 1, vector<int>(S + 1, 0));
+int knapsack(int capacity, vector<int>& sizes, vector<int>& values, int N) {
+    vector<vector<int>> dp(N + 1, vector<int>(capacity + 1, 0));
 
     for (int i = 1; i <= N; ++i) {
-        for (int j = 1; j <= S; ++j) {
-            if (sizes[i - 1] <= j) {
-                dp[i][j] = max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - sizes[i - 1]]);
-            } else {
+        for (int j = 1; j <= capacity; ++j) {
+            if (sizes[i - 1] > j) {
                 dp[i][j] = dp[i - 1][j];
+            } else {
+                dp[i][j] = max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - sizes[i - 1]]);
             }
         }
     }
 
-    return dp[N][S];
+    return dp[N][capacity];
 }
 
 int main() {
     int N, S;
     cin >> N >> S;
 
-    vector<int> sizes(N);
-    vector<int> values(N);
-
+    vector<int> sizes(N), values(N);
     for (int i = 0; i < N; ++i) {
         cin >> sizes[i];
     }
@@ -34,9 +31,8 @@ int main() {
         cin >> values[i];
     }
 
-    int result = knapsack(N, S, sizes, values);
-
-    cout << result << endl;
+    int maxTotalValue = knapsack(S, sizes, values, N);
+    cout << maxTotalValue << endl;
 
     return 0;
 }

@@ -7,24 +7,24 @@ int main() {
     int Q;
     cin >> Q;
 
-    stack<int> modulePile;
-    
+    stack<int> moduleStack;
+
     for (int i = 0; i < Q; i++) {
         int queryType;
         cin >> queryType;
 
-        if (queryType == 1) {  // Student Query
-            if (modulePile.empty()) {
-                cout << "No Code" << endl;
-            } else {
-                int cost = modulePile.top();
-                modulePile.pop();
+        if (queryType == 1) {
+            if (!moduleStack.empty()) {
+                int cost = moduleStack.top();
+                moduleStack.pop();
                 cout << cost << endl;
+            } else {
+                cout << "No Code" << endl;
             }
-        } else if (queryType == 2) {  // Instructor Query
+        } else if (queryType == 2) {
             int cost;
             cin >> cost;
-            modulePile.push(cost);
+            moduleStack.push(cost);
         }
     }
 

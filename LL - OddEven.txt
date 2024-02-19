@@ -1,41 +1,36 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 int main() {
-    int N;
-    std::cin >> N;
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    vector<int> oddElements, evenElements;
 
-    std::vector<int> arr(N);
-
-    // Input the elements
-    for (int i = 0; i < N; i++) {
-        std::cin >> arr[i];
-    }
-
-    // Separate odd and even elements
-    std::vector<int> odd, even;
-    for (int i = 0; i < N; i++) {
-        if (arr[i] % 2 == 1) {
-            odd.push_back(arr[i]);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+        if (arr[i] % 2 == 0) {
+            evenElements.push_back(arr[i]);
         } else {
-            even.push_back(arr[i]);
+            oddElements.push_back(arr[i]);
         }
     }
 
-    // Merge odd and even elements
-    std::vector<int> modifiedList;
-    for (int i = 0; i < odd.size(); i++) {
-        modifiedList.push_back(odd[i]);
-    }
-    for (int i = 0; i < even.size(); i++) {
-        modifiedList.push_back(even[i]);
+    // Output odd elements followed by even elements
+    for (int i = 0; i < oddElements.size(); i++) {
+        cout << oddElements[i] << " ";
     }
 
-    // Output the modified list
-    for (int i = 0; i < N; i++) {
-        std::cout << modifiedList[i] << " ";
+    for (int i = 0; i < evenElements.size(); i++) {
+        cout << evenElements[i];
+        if (i < evenElements.size() - 1) {
+            cout << " ";
+        }
     }
-    std::cout << std::endl;
+
+    cout << endl;
 
     return 0;
 }

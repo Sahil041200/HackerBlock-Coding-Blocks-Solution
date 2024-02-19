@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+int binomialCoefficient(int n, int k) {
+    if (k == 0 || k == n) {
+        return 1;
+    } else {
+        return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
+    }
+}
+
+int main() {
+    int N;
+    cin >> N;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j <= i; j++) {
+            int coefficient = binomialCoefficient(i, j);
+            cout << coefficient << "\t";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}

@@ -1,59 +1,80 @@
 #include <iostream>
+using namespace std;
 
-struct ListNode {
-    int val;
-    ListNode* next;
-    ListNode(int x) : val(x), next(nullptr) {}
+// Define the structure of a linked list node
+struct Node {
+    int data;
+    Node* next;
 };
 
-ListNode* reverseKGroup(ListNode* head, int k) {
+// Function to create a new node
+Node* newNode(int data) {
+    Node* node = new Node;
+    node->data = data;
+    node->next = nullptr;
+    return node;
+}
+
+// Function to reverse a linked list in groups of k
+Node* reverseKGroup(Node* head, int k) {
+    Node* current = head;
+    Node* next = nullptr;
+    Node* prev = nullptr;
     int count = 0;
-    ListNode* current = head;
-    while (current != nullptr && count < k) {
-        current = current->next;
+
+    // Count the number of nodes in the current group
+    Node* temp = head;
+    while (temp != nullptr && count < k) {
+        temp = temp->next;
         count++;
     }
 
+    // If the group size is less than k, no need to reverse
     if (count < k) {
-        return head;  // The remaining group has fewer than k elements, so no need to reverse
+        return head;
     }
 
-    ListNode* prev = nullptr;
-    current = head;
-    for (int i = 0; i < k; i++) {
-        ListNode* nextNode = current->next;
+    // Reverse the group
+    count = 0;
+    while (current != nullptr && count < k) {
+        next = current->next;
         current->next = prev;
         prev = current;
-        current = nextNode;
+        current = next;
+        count++;
     }
 
-    head->next = reverseKGroup(current, k);
+    // Recursively reverse the rest of the list
+    if (next != nullptr) {
+        head->next = reverseKGroup(next, k);
+    }
 
     return prev;
 }
 
-void printLinkedList(ListNode* head) {
-    ListNode* current = head;
-    while (current != nullptr) {
-        std::cout << current->val << " ";
-        current = current->next;
+// Function to print a linked list
+void printLinkedList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
 int main() {
     int N, K;
-    std::cin >> N >> K;
+    cin >> N >> K;
 
-    ListNode* head = nullptr;
-    ListNode* tail = nullptr;
+    Node* head = nullptr;
+    Node* tail = nullptr;
 
-    // Input for the linked list
     for (int i = 0; i < N; i++) {
-        int value;
-        std::cin >> value;
-        ListNode* newNode = new ListNode(value);
-        if (head == nullptr) {
+        int data;
+        cin >> data;
+        Node* newNode = new Node;
+        newNode->data = data;
+        newNode->next = nullptr;
+        if (tail == nullptr) {
             head = newNode;
             tail = newNode;
         } else {
@@ -64,13 +85,6 @@ int main() {
 
     head = reverseKGroup(head, K);
     printLinkedList(head);
-
-    // Free allocated memory
-    while (head != nullptr) {
-        ListNode* temp = head;
-        head = head->next;
-        delete temp;
-    }
 
     return 0;
 }

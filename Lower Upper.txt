@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    char character;
+    cin >> character;
+
+    if (character >= 'a' && character <= 'z') {
+        cout << "lowercase" << endl;
+    } else if (character >= 'A' && character <= 'Z') {
+        cout << "UPPERCASE" << endl;
+    } else {
+        cout << "Invalid" << endl;
+    }
+
+    return 0;
+}

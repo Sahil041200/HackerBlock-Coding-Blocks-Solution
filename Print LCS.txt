@@ -1,16 +1,17 @@
 #include <iostream>
 #include <vector>
-
+#include <string>
 using namespace std;
 
-string findLCS(string A, string B) {
-    int n = A.length();
-    int m = B.length();
+string longestCommonSubsequence(string A, string B) {
+    int m = A.length();
+    int n = B.length();
 
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
 
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 1; j <= m; ++j) {
+    // Building the DP table to find LCS
+    for (int i = 1; i <= m; ++i) {
+        for (int j = 1; j <= n; ++j) {
             if (A[i - 1] == B[j - 1]) {
                 dp[i][j] = 1 + dp[i - 1][j - 1];
             } else {
@@ -19,16 +20,14 @@ string findLCS(string A, string B) {
         }
     }
 
-    int len = dp[n][m];
-    string lcs(len, ' ');
-
-    int i = n, j = m;
+    // Reconstruct LCS
+    string lcs = "";
+    int i = m, j = n;
     while (i > 0 && j > 0) {
         if (A[i - 1] == B[j - 1]) {
-            lcs[len - 1] = A[i - 1];
+            lcs = A[i - 1] + lcs;
             i--;
             j--;
-            len--;
         } else if (dp[i - 1][j] > dp[i][j - 1]) {
             i--;
         } else {
@@ -43,9 +42,8 @@ int main() {
     string A, B;
     cin >> A >> B;
 
-    string lcs = findLCS(A, B);
-
-    cout << lcs << endl;
+    string result = longestCommonSubsequence(A, B);
+    cout << result << endl;
 
     return 0;
 }

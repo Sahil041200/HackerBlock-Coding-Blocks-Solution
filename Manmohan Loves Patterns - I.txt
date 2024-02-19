@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+
+    for (int i = 1; i <= N; i++) {
+        // For odd rows, print 1, odd number of times
+        if (i % 2 == 1) {
+            for (int j = 1; j <= i; j++) {
+                cout << "1";
+            }
+        }
+        // For even rows, print first and last character as 1, rest as 0
+        else {
+            cout << "1";
+            for (int j = 1; j <= i - 2; j++) {
+                cout << "0";
+            }
+            cout << "1";
+        }
+
+        // Move to the next line
+        cout << endl;
+    }
+
+    return 0;
+}
